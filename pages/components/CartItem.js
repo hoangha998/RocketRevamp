@@ -4,8 +4,6 @@ import { Box, Flex, HStack, chakra,  NumberInput,
     NumberInputStepper,
     NumberIncrementStepper,
     NumberDecrementStepper,} from "@chakra-ui/react";
-import { StarIcon } from "@chakra-ui/icons";
-
 export default function CartItem(){
   return (
     <Flex
@@ -56,7 +54,7 @@ export default function CartItem(){
               $57
             </chakra.h1>
 
-            
+
             <NumberInput
                     defaultValue={1}
                     max={10}
@@ -72,9 +70,9 @@ export default function CartItem(){
                     </NumberInput>
         </Box>
         <Flex mt={3} alignItems="center" justifyContent="space-between">
-           
-            
-            
+
+
+
           </Flex>
           <chakra.button
               px={2}
@@ -95,8 +93,7 @@ export default function CartItem(){
               Delete
             </chakra.button>
       </Flex>
-      
+
     </Flex>
   );
 };
-
