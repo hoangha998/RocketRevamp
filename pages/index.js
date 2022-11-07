@@ -19,6 +19,7 @@ import {
 } from "@chakra-ui/react";
 import ItemCard from "./components/ItemCard";
 import Navbar from "./components/Navbar";
+import CartItem from "./components/CartItem";
 export default function Home() {
   const { toggleColorMode } = useColorMode();
   const formBackground = useColorModeValue("gray.100", "gray.700");
@@ -92,7 +93,10 @@ export default function Home() {
                   rounded="full"
                 />
               </Box>
-              <Heading as="h2">Cart</Heading>
+              <Heading as="h2">Cart
+              </Heading>
+              <CartItem/>
+              <CartItem/>
             </Box>
           </GridItem>
         </Grid>
