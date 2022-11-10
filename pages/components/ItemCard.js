@@ -23,7 +23,7 @@ export default function ItemCard() {
         boxShadow={'2xl'}
         rounded={'lg'}
         pos={'relative'}
-        zIndex={-3}
+        zIndex={1}
         mr="5">
 
         <Box

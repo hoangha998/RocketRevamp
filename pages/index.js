@@ -29,9 +29,7 @@ export default function Home() {
   return (
     <Flex>
       <Box width="100%">
-        <Box mb="45px" zIndex="10">
-          <Navbar />
-        </Box>
+        <Navbar />
         <Grid templateColumns="repeat(5, 1fr)" gap={4}>
           <GridItem colSpan={3}>
             <Box width="100%" margin="10">

@@ -45,7 +45,8 @@ export default function Navbar() {
   const LOGO = 'https://www.challengertlh.com/wp-content/uploads/2015/09/siteicon.png';
   return (
 
-      <Box bg={useColorModeValue("gray.100", "gray.700")} px={4} width="100%" position="fixed" z="100">
+      <Box bg={useColorModeValue("gray.100", "gray.700")} px={4} width="100%"
+      position="fixed" zIndex="2">
         <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
           <IconButton
             size={"md"}
@@ -77,7 +78,7 @@ export default function Navbar() {
             >
               {colorMode === "light" ? <BsMoonStarsFill /> : <BsSun />}
             </Button> */}
-          
+
           </Flex>
         </Flex>
 
@@ -91,6 +92,6 @@ export default function Navbar() {
           </Box>
         ) : null}
       </Box>
-   
+
   );
 }

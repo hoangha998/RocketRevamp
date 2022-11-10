@@ -1,34 +1,24 @@
 import {
-  Flex,
   Heading,
   Input,
+  Flex,
   Button,
-  Grid,
-  GridItem,
   useColorMode,
   useColorModeValue,
   Wrap,
   WrapItem,
-  Box,
-  Progress,
-  Tabs,
-  TabList,
-  TabPanels,
-  Tab,
-  TabPanel,
-  Text,
+  Box
 } from "@chakra-ui/react";
 
 
 import ItemCard from "./ItemCard";
-import Navbar from "./Navbar";
-import CartItem from "./CartItem";
+// import Navbar from "./Navbar";
+// import CartItem from "./CartItem";
 export default function Adhesive() {
   return (
-    <Box>
+    <Box mt="100px">
       <Heading as="h2" noOfLines={1}>
-        {" "}
-        Adhesive{" "}
+        Adhesive
       </Heading>
       <Wrap>
         <WrapItem>
