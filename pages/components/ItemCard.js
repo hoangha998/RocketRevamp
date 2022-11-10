@@ -17,13 +17,13 @@ export default function ItemCard() {
       <Box
         role={'group'}
         p={6}
-        maxW={'230px'}
+        maxW={'200px'}
         w={'full'}
         bg={useColorModeValue('white', 'gray.700')}
         boxShadow={'2xl'}
         rounded={'lg'}
         pos={'relative'}
-        zIndex={1}
+        zIndex={-3}
         mr="5">
 
         <Box

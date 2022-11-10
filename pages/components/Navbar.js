@@ -44,8 +44,8 @@ export default function Navbar() {
   const formBackground = useColorModeValue("gray.100", "gray.700");
   const LOGO = 'https://www.challengertlh.com/wp-content/uploads/2015/09/siteicon.png';
   return (
-    <>
-      <Box bg={useColorModeValue("gray.100", "gray.700")} px={4} width="100%">
+
+      <Box bg={useColorModeValue("gray.100", "gray.700")} px={4} width="100%" position="fixed" z="100">
         <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
           <IconButton
             size={"md"}
@@ -69,14 +69,14 @@ export default function Navbar() {
             </HStack>
           </HStack>
           <Flex alignItems={"center"}>
-            <Button
+            {/* <Button
               aria-label="Toggle Color Mode"
               onClick={toggleColorMode}
               _focus={{ boxShadow: "none" }}
               w="fit-content"
             >
               {colorMode === "light" ? <BsMoonStarsFill /> : <BsSun />}
-            </Button>
+            </Button> */}
           
           </Flex>
         </Flex>
@@ -91,6 +91,6 @@ export default function Navbar() {
           </Box>
         ) : null}
       </Box>
-    </>
+   
   );
 }

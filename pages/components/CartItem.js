@@ -1,102 +1,137 @@
-import React from "react";
-import { Box, Flex, HStack, chakra,  NumberInput,
-    NumberInputField,
-    NumberInputStepper,
-    NumberIncrementStepper,
-    NumberDecrementStepper,} from "@chakra-ui/react";
-import { StarIcon } from "@chakra-ui/icons";
+import * as React from "react";
+import {
+  Box,
+  Flex,
+  HStack,
+  chakra,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+  NumberIncrementStepper,
+  NumberDecrementStepper,
+  Spacer,
+  Grid,
+  GridItem,
+  Image,
+  Heading,
+  Stack,
+  Text,
+  Link,
+  Select,
+  SelectProps,
+  CloseButton,
+} from "@chakra-ui/react";
 
-export default function CartItem(){
+const IMAGE = "https://il.farnell.com/productimages/large/en_GB/1775788-40.jpg";
+export default function CartItem() {
   return (
-    <Flex
-      bg="#edf3f8"
-      _dark={{ bg: "gray.700" }}
-      p={50}
-      w="full"
-      alignItems="center"
-      justifyContent="center"
-    >
-      <Flex
-        maxW="md"
-        mx="auto"
-        bg="white"
-        _dark={{ bg: "gray.800" }}
-        shadow="lg"
-        rounded="lg"
-        overflow="hidden"
-      >
-        <Box
-          w={1 / 3}
-          bgSize="cover"
-          style={{
-            backgroundImage:
-              "url('https://il.farnell.com/productimages/large/en_GB/1775788-40.jpg')",
-          }}
-        ></Box>
-
-        <Box w={2 / 3} p={{ base: 4, md: 4 }}>
-          <chakra.h1
-            fontSize="2xl"
-            fontWeight="bold"
-            color="gray.800"
-            _dark={{ color: "white" }}
-          >
-            Duct Tape
-          </chakra.h1>
-
-          <chakra.p
-            mt={2}
-            fontSize="sm"
-            color="gray.600"
-            _dark={{ color: "gray.400" }}
-          >
-            Lorem ipsum doslor sit amet consectetur adipisicing elit In odit
-          </chakra.p>
-          <chakra.h1 color="white" fontWeight="bold" fontSize="lg">
-              $57
-            </chakra.h1>
-
-            
-            <NumberInput
-                    defaultValue={1}
-                    max={10}
-                    keepWithinRange={false}
-                    clampValueOnBlur={false}
-                    size='sm'
-                    >
+    <Box pb="5">
+      {/* <Box background="#171923" radius="5px" rounded="lg"> */}
+      {/* <Box width="full">
+          <Stack direction="row" width="full" position="relative">
+            <CloseButton position="absolute" right="3px" top="5px"/>
+              <Image
+                rounded="lg"
+                width="200px"
+                height="200px"
+                fit="cover"
+                src="https://il.farnell.com/productimages/large/en_GB/1775788-40.jpg"
+                alt="Name"
+                draggable="false"
+                loading="lazy"
+              />
+              <Box pt="4" width="full">
+                <Stack spacing="1">
+                  <Text fontWeight="medium" fontSize="lg">
+                    Duct Tape
+                  </Text>
+                  <Text fontWeight="medium" fontSize="sm">
+                    Unit Price: $57
+                  </Text>
+                </Stack>
+                <Box width="full" pb='4' pt='5'>
+                  <NumberInput width="150px">
                     <NumberInputField />
                     <NumberInputStepper>
-                        <NumberIncrementStepper />
-                        <NumberDecrementStepper />
+                      <NumberIncrementStepper />
+                      <NumberDecrementStepper />
                     </NumberInputStepper>
-                    </NumberInput>
-        </Box>
-        <Flex mt={3} alignItems="center" justifyContent="space-between">
-           
-            
-            
-          </Flex>
-          <chakra.button
-              px={2}
-              py={1}
-              bg="red.900"
-              fontSize="xs"
-              color="gray.100"
-              fontWeight="bold"
-              rounded="lg"
-              textTransform="uppercase"
-              _hover={{
-                bg: "red.500",
-              }}
-              _focus={{
-                bg: "gray.300",
-              }}
-            >
-              Delete
-            </chakra.button>
-      </Flex>
-      
-    </Flex>
-  );
-};
+                  </NumberInput>
+              </Box>
+              <Text ml="30px" fontWeight="bold" fontSize="xl" color="teal">
+                    $57
+                  </Text>
+              </Box>
+              
+          </Stack>
+        </Box> */}
+      {/* </Box> */}
 
+      <Box
+        width="100%"
+        height="auto"
+        background="#171923"
+        rounded="lg"
+        justify="space-between"
+        display="flex"
+      >
+        <Box width="120px" display="flex" alignItems="center" float="left" >
+          <Image
+            rounded={"lg"}
+            height={"125px"}
+            width={"auto"}
+            src={IMAGE}
+          />
+        </Box>
+        <Box
+          width="150px"
+          direction="column"
+          textAlign="center"
+          float="left"
+        >
+          <Box>
+            <Heading fontSize="24px" fontWeight="400" pt="5px" height="50%">
+              Duct Tape
+            </Heading>
+          </Box>
+          <Box
+            width="100px"
+         
+            margin="auto"
+            display="flex"
+            textAlign="center"
+            alignItems="center"
+            pt="5px"
+            justify="center"
+          >
+            <Text fontWeight="Bold" color="green.400">$247/<Text as="span" fontWeight="100" color="gray.500"> item</Text></Text>
+          </Box>
+          <Box
+            width="100px"
+            height="auto"
+            margin="auto"
+            display="flex"
+            alignItems="center"
+            justify="center"
+            mt="10px"
+          >
+            <NumberInput width="100px" margin="auto">
+              <NumberInputField />
+              <NumberInputStepper>
+                <NumberIncrementStepper />
+                <NumberDecrementStepper />
+              </NumberInputStepper>
+            </NumberInput>
+          </Box>
+        </Box>
+
+        <Box width="30%"  height="auto">
+          <CloseButton position="relative"  left="90px" bottom="0" />
+          <Box position="relative" left="0" top="8" border="1px solid #784203" background="#A0FFF0" rounded="lg" p="px" textAlign="center" mr="10px">
+            <Text fontWeight="500" color="black">Total: $150,000</Text>
+          </Box>
+        </Box>
+      </Box>
+    </Box>
+  );
+}
