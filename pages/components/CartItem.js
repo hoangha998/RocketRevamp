@@ -26,47 +26,6 @@ const IMAGE = "https://il.farnell.com/productimages/large/en_GB/1775788-40.jpg";
 export default function CartItem() {
   return (
     <Box pb="5">
-      {/* <Box background="#171923" radius="5px" rounded="lg"> */}
-      {/* <Box width="full">
-          <Stack direction="row" width="full" position="relative">
-            <CloseButton position="absolute" right="3px" top="5px"/>
-              <Image
-                rounded="lg"
-                width="200px"
-                height="200px"
-                fit="cover"
-                src="https://il.farnell.com/productimages/large/en_GB/1775788-40.jpg"
-                alt="Name"
-                draggable="false"
-                loading="lazy"
-              />
-              <Box pt="4" width="full">
-                <Stack spacing="1">
-                  <Text fontWeight="medium" fontSize="lg">
-                    Duct Tape
-                  </Text>
-                  <Text fontWeight="medium" fontSize="sm">
-                    Unit Price: $57
-                  </Text>
-                </Stack>
-                <Box width="full" pb='4' pt='5'>
-                  <NumberInput width="150px">
-                    <NumberInputField />
-                    <NumberInputStepper>
-                      <NumberIncrementStepper />
-                      <NumberDecrementStepper />
-                    </NumberInputStepper>
-                  </NumberInput>
-              </Box>
-              <Text ml="30px" fontWeight="bold" fontSize="xl" color="teal">
-                    $57
-                  </Text>
-              </Box>
-              
-          </Stack>
-        </Box> */}
-      {/* </Box> */}
-
       <Box
         width="100%"
         height="auto"
