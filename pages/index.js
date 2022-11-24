@@ -23,9 +23,24 @@ import Navbar from "./components/Navbar";
 import CartItem from "./components/CartItem";
 import Adhesive from "./components/Adhesive";
 import Paper from "./components/Paper";
+import {useState} from "react";
+
 export default function Home() {
   const { toggleColorMode } = useColorMode();
   const formBackground = useColorModeValue("gray.100", "gray.700");
+
+  const [cartTotal, setCartTotal] = useState(0);
+
+  const addTotal = (newItemTotal) =>{
+    setCartTotal(cartTotal + newItemTotal);
+  }
+
+  const subTotal = (newItemTotal) => {
+    setCartTotal(cartTotal - newItemTotal);
+  }
+
+ console.log("CartTotal:", cartTotal)
+
   return (
     <Flex>
       <Box width="100%">
@@ -88,7 +103,8 @@ export default function Home() {
                   <Text fontSize="md" as="span">
                     Total:
                   </Text>
-                  <Text>$350,000</Text>
+                  {/* <Text>$350,000</Text> */}
+                  <Text>{cartTotal}</Text>
                 </Box>
               </Box>
               <Tabs variant="enclosed" fontWeight="bold">
@@ -114,12 +130,10 @@ export default function Home() {
                         },
                       }}
                     >
-                      <CartItem />
-                      <CartItem />
-                      <CartItem />
-                      <CartItem />
-                      <CartItem />
-                      <CartItem />
+                      <CartItem name="Test" price={150000} addTotal={addTotal} subTotal={subTotal}/>
+                      <CartItem name = "Penis Tape" price={93715} addTotal={addTotal} subTotal={subTotal}/>
+                      <CartItem name = "Cardboard" price={150000} addTotal={addTotal} subTotal={subTotal}/>
+                
                     </Box>
                   </TabPanel>
                   <TabPanel></TabPanel>

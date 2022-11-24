@@ -22,22 +22,39 @@ import {
   CloseButton,
 } from "@chakra-ui/react";
 
-function increment() {
-  quantity += 1;
-  console.log(quantity);
-  return quantity;
-}
-
-function decrement() {
-  if (quantity > 0) {
-    quantity -= 1;
-    console.log(quantity);
-  }
-}
 
 const IMAGE = "https://il.farnell.com/productimages/large/en_GB/1775788-40.jpg";
-let quantity = 2;
-export default function CartItem() {
+// let quantity = 2;
+
+export default function CartItem(props) {
+
+  const [quantity, setQuantity] = React.useState(1);
+  const [total, setCartTotal] = React.useState();
+
+  function increment() {
+    setQuantity(quantity + 1)
+    console.log(quantity)
+    let curTotal = (quantity+1) * props.price
+    props.addTotal(props.price)
+  }
+
+  function decrement() {
+    if(quantity > 0){
+      setQuantity(quantity - 1)
+      let curTotal = (quantity+1) * props.price
+      props.subTotal(props.price)
+    }
+    // else delete this cart item from cart
+    
+  }
+
+  function setTotal(){
+    console.log("Setting total")
+    props.addTotal(quantity * props.price)
+  }
+
+ React.useEffect(()=>setTotal(),[])
+
   return (
     <Box pb="5">
       <Box
@@ -54,7 +71,7 @@ export default function CartItem() {
         <Box width="150px" direction="column" textAlign="center" float="left">
           <Box>
             <Heading fontSize="24px" fontWeight="400" pt="5px" height="50%">
-              Duct Tape
+              {props.name}
             </Heading>
           </Box>
           <Box
@@ -67,11 +84,11 @@ export default function CartItem() {
             justify="center"
           >
             <Text fontWeight="Bold" color="green.400">
-              $247/
-              <Text as="span" fontWeight="100" color="gray.500">
+              {props.price}
+              {/* <Text as="span" fontWeight="100" color="gray.500">
                 {" "}
                 item
-              </Text>
+              </Text> */}
             </Text>
           </Box>
           <Box
@@ -83,15 +100,8 @@ export default function CartItem() {
             justify="center"
             mt="10px"
           >
-            {/* <NumberInput width="100px" margin="auto">
-              <NumberInputField />
-              <NumberInputStepper>
-                <NumberIncrementStepper />
-                <NumberDecrementStepper />
-              </NumberInputStepper>
-            </NumberInput> */}
             <Flex width="100px" margin="auto" align="center">
-              <Text p="2" onClick={() => decrement()} cursor="pointer">
+              <Text p="2" onClick={decrement} cursor="pointer">
                 -
               </Text>
               <Text
@@ -103,10 +113,11 @@ export default function CartItem() {
                 pl="5"
                 rounded="md"
                 fontSize="12"
+                onChange = {setTotal}
               >
                 {quantity}
               </Text>
-              <Text p="2" cursor="pointer" onClick={() => quantity = increment()}>
+              <Text p="2" cursor="pointer" onClick={increment}>
                 +
               </Text>
             </Flex>
@@ -127,7 +138,7 @@ export default function CartItem() {
             mr="10px"
           >
             <Text fontWeight="500" color="black">
-              $150,000
+              {props.price * quantity}
             </Text>
           </Box>
         </Box>
