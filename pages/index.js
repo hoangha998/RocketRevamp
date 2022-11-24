@@ -74,7 +74,7 @@ export default function Home() {
                 pb="15px"
               >
                 <Box
-                  width="180px"
+                  width="160px"
                   bg="blue.900"
                   p="4"
                   color="white"
@@ -86,7 +86,7 @@ export default function Home() {
                   justifyContent="space-between"
                 >
                   <Text fontSize="md" as="span">
-                    Cart Total:
+                    Total:
                   </Text>
                   <Text>$350,000</Text>
                 </Box>
