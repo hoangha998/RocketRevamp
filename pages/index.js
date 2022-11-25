@@ -18,16 +18,16 @@ import {
   TabPanel,
   Text,
 } from "@chakra-ui/react";
+
 import ItemCard from "./components/ItemCard";
 import Navbar from "./components/Navbar";
 import CartItem from "./components/CartItem";
-import Adhesive from "./components/Adhesive";
-import Paper from "./components/Paper";
+import Category from "./components/Category";
 import {useState} from "react";
+import clientPromise from "../lib/mongodb";
 
-export default function Home() {
-  const { toggleColorMode } = useColorMode();
-  const formBackground = useColorModeValue("gray.100", "gray.700");
+function Home({items}) {
+  const formBackground = useColorModeValue("gray.700");
 
   const [cartTotal, setCartTotal] = useState(0);
 
@@ -38,6 +38,28 @@ export default function Home() {
   const subTotal = (newItemTotal) => {
     setCartTotal(cartTotal - newItemTotal);
   }
+  console.log(items)
+
+  let items_dict = {
+    'Launch Port Rentals': [],
+    'Delta Pneumatics®': [],
+    'Intergalactic Paper Products®': [],
+    'Stellar Adhesives®': [],
+    'Mass Dynamics®': [],
+    'Soaring Rocket Parts Plus®': [],
+    'Your Commander': []
+  };
+  for (let i=0; i<items.length; i++){
+    items_dict[items[i].subcontractor].push(items[i])
+  }
+  let categories = ['Launch Port Rentals',
+  'Delta Pneumatics®',
+  'Intergalactic Paper Products®',
+  'Stellar Adhesives®',
+  'Mass Dynamics®',
+  'Soaring Rocket Parts Plus®',
+  'Your Commander'];
+
 
  console.log("CartTotal:", cartTotal)
 
@@ -48,8 +70,10 @@ export default function Home() {
         <Grid templateColumns="repeat(5, 1fr)" gap={4}>
           <GridItem colSpan={3}>
             <Box width="100%" margin="10">
-              <Adhesive />
-              <Paper />
+              {categories.map((cat) => (
+                <Category items={items_dict[cat]} category={cat} />
+              ))}
+
             </Box>
           </GridItem>
           <GridItem colStart={4} colEnd={6} float="right">
@@ -60,6 +84,7 @@ export default function Home() {
               position="fixed"
               top="20"
               right="50"
+              height="100vh"
             >
               <Box width="80%" margin="auto" pb="20px">
                 <Heading
@@ -120,7 +145,7 @@ export default function Home() {
                       margin="auto"
                       overflowY="scroll"
                       scrollbar="none"
-                      maxHeight="60vh"
+                      maxHeight="55vh"
                       sx={{
                         "&::-webkit-scrollbar": {
                           display: "visible",
@@ -131,12 +156,15 @@ export default function Home() {
                       }}
                     >
                       <CartItem name="Test" price={150000} addTotal={addTotal} subTotal={subTotal}/>
-                      <CartItem name = "Penis Tape" price={93715} addTotal={addTotal} subTotal={subTotal}/>
-                      <CartItem name = "Cardboard" price={150000} addTotal={addTotal} subTotal={subTotal}/>
-                
+                      <CartItem name="Test" price={150000} addTotal={addTotal} subTotal={subTotal}/>
+                      <CartItem name="Test" price={150000} addTotal={addTotal} subTotal={subTotal}/>
+                      <CartItem name="Test" price={150000} addTotal={addTotal} subTotal={subTotal}/>
+                      <CartItem name="Test" price={150000} addTotal={addTotal} subTotal={subTotal}/>
                     </Box>
                   </TabPanel>
-                  <TabPanel></TabPanel>
+                  <TabPanel>
+                    <h1> Moyesh is gay </h1>
+                  </TabPanel>
                 </TabPanels>
               </Tabs>
             </Box>
@@ -146,3 +174,19 @@ export default function Home() {
     </Flex>
   );
 }
+
+export async function getServerSideProps() {
+  const client = await clientPromise;
+  const db = client.db("main");
+
+  const items = await db
+      .collection("items")
+      .find({})
+      .toArray();
+
+  return {
+      props: { items: JSON.parse(JSON.stringify(items)) }
+    }
+}
+
+export default Home

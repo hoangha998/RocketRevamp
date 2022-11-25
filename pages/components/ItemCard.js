@@ -9,7 +9,7 @@ import {
   Image,
 } from '@chakra-ui/react';
 
-export default function ItemCard() {
+export default function ItemCard(props) {
   const IMAGE =
   'https://il.farnell.com/productimages/large/en_GB/1775788-40.jpg';
   return (
@@ -53,16 +53,16 @@ export default function ItemCard() {
             height={160}
             width={230}
             objectFit={'cover'}
-            src={IMAGE}
+            src={props.item.image_link}
           />
         </Box>
 
         <Stack pt={8} align={'center'}>
           <Heading fontSize={'20'} fontFamily={'body'} fontWeight={500}>
-            Duct Tape
+            {props.item.name}
           </Heading>
-          <Text fontWeight={800} fontSize={'20'}>
-            $57
+          <Text fontWeight={800} fontSize={'20'} color="green.400">
+            ${props.item.price}
           </Text>
           <Button mb={6} colorScheme="blue"> Add to cart </Button>
         </Stack>
