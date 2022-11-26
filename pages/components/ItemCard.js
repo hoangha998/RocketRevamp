@@ -19,6 +19,10 @@ export default function ItemCard(props) {
   const [cartTotal, setCartTotal] = useContext(CartTotalContext)
   const [cartItems, setCartItems] = useContext(CartItemsContext)
   const toast = useToast();
+  const formatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD'
+  });
 
   const addItem = (item) =>{
     let alreadyAdded = false;
@@ -93,7 +97,7 @@ export default function ItemCard(props) {
             {props.item.name}
           </Heading>
           <Text fontWeight={800} fontSize={'20'} color="green.400">
-            ${props.item.price}
+            {formatter.format(props.item.price).slice(0,-3)}
           </Text>
           <Button mb={6} colorScheme="blue" onClick={function() {addItem(props.item)}}> Add to cart </Button>
         </Stack>

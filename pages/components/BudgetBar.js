@@ -9,7 +9,11 @@ import {useContext, useState} from "react";
 
 export default function BudgetBar() {
 
-  const [cartTotal, setCartTotal] = useContext(CartTotalContext)
+  const [cartTotal, setCartTotal] = useContext(CartTotalContext);
+  const formatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD'
+  });
 
   return (
     <Box>
@@ -55,7 +59,7 @@ export default function BudgetBar() {
             Total:
           </Text>
           {/* <Text>$350,000</Text> */}
-          <Text>{cartTotal}</Text>
+          <Text>{formatter.format(cartTotal).slice(0,-3)}</Text>
         </Box>
       </Box>
     </Box>

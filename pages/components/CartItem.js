@@ -23,6 +23,7 @@ import {
 } from "@chakra-ui/react";
 import CartTotalContext from '../context/CartTotalProvider'
 import {useContext, useState} from "react";
+import CartItemsContext from '../context/CartItemsProvider'
 
 const IMAGE = "https://il.farnell.com/productimages/large/en_GB/1775788-40.jpg";
 // let quantity = 2;
@@ -30,7 +31,15 @@ const IMAGE = "https://il.farnell.com/productimages/large/en_GB/1775788-40.jpg";
 export default function CartItem(props) {
 
   const [cartTotal, setCartTotal] = useContext(CartTotalContext)
+  const [cartItems, setCartItems] = useContext(CartItemsContext)
   const [quantity, setQuantity] = React.useState(1);
+
+
+  let itemTotal = props.item.price * quantity;
+  const formatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD'
+  });
 
   const addTotal = (newItemTotal) =>{
     setCartTotal(cartTotal + newItemTotal);
@@ -47,13 +56,29 @@ export default function CartItem(props) {
   }
 
   function decrement() {
-    if(quantity > 0){
+    if(quantity > 1){
       setQuantity(quantity - 1)
-      let curTotal = (quantity+1) * props.item.price
+      let curTotal = (quantity-1) * props.item.price
       subTotal(props.item.price)
+    }
+    else {
+      deleteItem(props.item._id)
     }
     // else delete this cart item from cart
 
+  }
+
+
+  function deleteItem(item_id){
+    for(let i=0; i<cartItems.length;i++) {
+      if (cartItems[i]._id == item_id) {
+        let copyCartItems = [...cartItems];
+        copyCartItems.splice(i,1);
+        setCartItems(copyCartItems);
+        setCartTotal(cartTotal - quantity*props.item.price);
+        break;
+      }
+    }
   }
 
   return (
@@ -85,7 +110,7 @@ export default function CartItem(props) {
             justify="center"
           >
             <Text fontWeight="Bold" color="green.400">
-              {props.item.price}
+              {formatter.format(props.item.price).slice(0,-3)}
               {/* <Text as="span" fontWeight="100" color="gray.500">
                 {" "}
                 item
@@ -125,7 +150,7 @@ export default function CartItem(props) {
         </Box>
 
         <Box width="30%" height="auto">
-          <CloseButton position="relative" left="90px" bottom="0" />
+          <CloseButton position="relative" left="90px" bottom="0" onClick={function() {deleteItem(props.item._id)}}/>
           <Box
             position="relative"
             left="0"
@@ -138,7 +163,7 @@ export default function CartItem(props) {
             mr="10px"
           >
             <Text fontWeight="500" color="black">
-              {props.item.price * quantity}
+              {formatter.format(itemTotal).slice(0,-3)}
             </Text>
           </Box>
         </Box>
