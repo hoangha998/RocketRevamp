@@ -23,21 +23,14 @@ import ItemCard from "./components/ItemCard";
 import Navbar from "./components/Navbar";
 import CartItem from "./components/CartItem";
 import Category from "./components/Category";
+import Cart from "./components/Cart"
 import {useState} from "react";
 import clientPromise from "../lib/mongodb";
 
 function Home({items}) {
   const formBackground = useColorModeValue("gray.700");
 
-  const [cartTotal, setCartTotal] = useState(0);
-
-  const addTotal = (newItemTotal) =>{
-    setCartTotal(cartTotal + newItemTotal);
-  }
-
-  const subTotal = (newItemTotal) => {
-    setCartTotal(cartTotal - newItemTotal);
-  }
+  
   console.log(items)
 
   let items_dict = {
@@ -61,7 +54,7 @@ function Home({items}) {
   'Your Commander'];
 
 
- console.log("CartTotal:", cartTotal)
+//  console.log("CartTotal:", cartTotal)
 
   return (
     <Flex>
@@ -129,44 +122,12 @@ function Home({items}) {
                     Total:
                   </Text>
                   {/* <Text>$350,000</Text> */}
-                  <Text>{cartTotal}</Text>
+                  <Text>{10000}</Text>
                 </Box>
               </Box>
-              <Tabs variant="enclosed" fontWeight="bold">
-                <TabList>
-                  <Tab>Cart</Tab>
-                  <Tab>Approved</Tab>
-                </TabList>
-                <TabPanels>
-                  <TabPanel>
-                    <Box
-                      width="400px"
-                      height="auto"
-                      margin="auto"
-                      overflowY="scroll"
-                      scrollbar="none"
-                      maxHeight="55vh"
-                      sx={{
-                        "&::-webkit-scrollbar": {
-                          display: "visible",
-                          width: "8px",
-                          borderRadius: "2px",
-                          backgroundColor: `rgba(0, 0, 0, 0.05)`,
-                        },
-                      }}
-                    >
-                      <CartItem name="Test" price={150000} addTotal={addTotal} subTotal={subTotal}/>
-                      <CartItem name="Test" price={150000} addTotal={addTotal} subTotal={subTotal}/>
-                      <CartItem name="Test" price={150000} addTotal={addTotal} subTotal={subTotal}/>
-                      <CartItem name="Test" price={150000} addTotal={addTotal} subTotal={subTotal}/>
-                      <CartItem name="Test" price={150000} addTotal={addTotal} subTotal={subTotal}/>
-                    </Box>
-                  </TabPanel>
-                  <TabPanel>
-                    <h1> Moyesh is gay </h1>
-                  </TabPanel>
-                </TabPanels>
-              </Tabs>
+
+              <Cart/>
+
             </Box>
           </GridItem>
         </Grid>
