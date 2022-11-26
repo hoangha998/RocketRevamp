@@ -21,39 +21,40 @@ import {
   SelectProps,
   CloseButton,
 } from "@chakra-ui/react";
-
+import CartTotalContext from '../context/CartTotalProvider'
+import {useContext, useState} from "react";
 
 const IMAGE = "https://il.farnell.com/productimages/large/en_GB/1775788-40.jpg";
 // let quantity = 2;
 
 export default function CartItem(props) {
 
+  const [cartTotal, setCartTotal] = useContext(CartTotalContext)
   const [quantity, setQuantity] = React.useState(1);
-  const [total, setCartTotal] = React.useState();
+
+  const addTotal = (newItemTotal) =>{
+    setCartTotal(cartTotal + newItemTotal);
+  }
+
+  const subTotal = (newItemTotal) => {
+    setCartTotal(cartTotal - newItemTotal);
+  }
 
   function increment() {
     setQuantity(quantity + 1)
-    console.log(quantity)
-    let curTotal = (quantity+1) * props.price
-    props.addTotal(props.price)
+    let curTotal = (quantity+1) * props.item.price
+    addTotal(props.item.price)
   }
 
   function decrement() {
     if(quantity > 0){
       setQuantity(quantity - 1)
-      let curTotal = (quantity+1) * props.price
-      props.subTotal(props.price)
+      let curTotal = (quantity+1) * props.item.price
+      subTotal(props.item.price)
     }
     // else delete this cart item from cart
-    
-  }
 
-  function setTotal(){
-    console.log("Setting total")
-    props.addTotal(quantity * props.price)
   }
-
- React.useEffect(()=>setTotal(),[])
 
   return (
     <Box pb="5">
@@ -66,12 +67,12 @@ export default function CartItem(props) {
         display="flex"
       >
         <Box width="120px" display="flex" alignItems="center" float="left">
-          <Image rounded={"lg"} height={"125px"} width={"auto"} src={IMAGE} />
+          <Image rounded={"lg"} height={"125px"} width={"auto"} src={props.item.image_link} />
         </Box>
         <Box width="150px" direction="column" textAlign="center" float="left">
           <Box>
             <Heading fontSize="24px" fontWeight="400" pt="5px" height="50%">
-              {props.name}
+              {props.item.name}
             </Heading>
           </Box>
           <Box
@@ -84,7 +85,7 @@ export default function CartItem(props) {
             justify="center"
           >
             <Text fontWeight="Bold" color="green.400">
-              {props.price}
+              {props.item.price}
               {/* <Text as="span" fontWeight="100" color="gray.500">
                 {" "}
                 item
@@ -113,7 +114,6 @@ export default function CartItem(props) {
                 pl="5"
                 rounded="md"
                 fontSize="12"
-                onChange = {setTotal}
               >
                 {quantity}
               </Text>
@@ -138,7 +138,7 @@ export default function CartItem(props) {
             mr="10px"
           >
             <Text fontWeight="500" color="black">
-              {props.price * quantity}
+              {props.item.price * quantity}
             </Text>
           </Box>
         </Box>

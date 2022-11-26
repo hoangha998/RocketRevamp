@@ -7,9 +7,40 @@ import {
   Text,
   Stack,
   Image,
+  useToast
 } from '@chakra-ui/react';
+import CartItemsContext from '../context/CartItemsProvider'
+import CartTotalContext from '../context/CartTotalProvider'
+import {useContext, useState} from "react";
 
 export default function ItemCard(props) {
+
+
+  const [cartTotal, setCartTotal] = useContext(CartTotalContext)
+  const [cartItems, setCartItems] = useContext(CartItemsContext)
+  const toast = useToast();
+
+  const addItem = (item) =>{
+    let alreadyAdded = false;
+    for(let i=0; i < cartItems.length; i++) {
+      if (item._id == cartItems[i]._id) {
+        alreadyAdded = true;
+        toast({
+          title: 'Cannot add item',
+          description: 'Item "' + item.name + '" is already in your cart!',
+          status: 'warning',
+          duration: 9000,
+          isClosable: true,
+        })
+        break;
+      }
+    }
+    if (!alreadyAdded) {
+      setCartItems([...cartItems, item]);
+      setCartTotal(cartTotal + item.price);
+    }
+  }
+
   const IMAGE =
   'https://il.farnell.com/productimages/large/en_GB/1775788-40.jpg';
   return (
@@ -64,7 +95,7 @@ export default function ItemCard(props) {
           <Text fontWeight={800} fontSize={'20'} color="green.400">
             ${props.item.price}
           </Text>
-          <Button mb={6} colorScheme="blue"> Add to cart </Button>
+          <Button mb={6} colorScheme="blue" onClick={function() {addItem(props.item)}}> Add to cart </Button>
         </Stack>
 
       </Box>

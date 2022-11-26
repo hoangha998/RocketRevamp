@@ -8,12 +8,14 @@ import {
 } from "@chakra-ui/react";
 
 import CartTotalContext from '../context/CartTotalProvider'
+import CartItemsContext from '../context/CartItemsProvider'
 import {useContext, useState} from "react";
 import CartItem from "./CartItem";
 
 export default function Cart(props) {
 
   const [cartTotal, setCartTotal] = useContext(CartTotalContext)
+  const [cartItems, setCartItems] = useContext(CartItemsContext)
 
   const addTotal = (newItemTotal) =>{
     setCartTotal(cartTotal + newItemTotal);
@@ -47,11 +49,11 @@ export default function Cart(props) {
               },
             }}
           >
-            <CartItem name="Test" price={3000} addTotal={addTotal} subTotal={subTotal}/>
-            <CartItem name="Test" price={150000} addTotal={addTotal} subTotal={subTotal}/>
-            <CartItem name="Test" price={150000} addTotal={addTotal} subTotal={subTotal}/>
-            <CartItem name="Test" price={150000} addTotal={addTotal} subTotal={subTotal}/>
-            <CartItem name="Test" price={150000} addTotal={addTotal} subTotal={subTotal}/>
+
+          {cartItems.map((item) => (
+            <CartItem item={item} />
+          ))}
+            // TODO: add "Get Approval" button 
           </Box>
         </TabPanel>
         <TabPanel>
