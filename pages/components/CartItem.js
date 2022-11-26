@@ -20,6 +20,7 @@ import {
   Select,
   SelectProps,
   CloseButton,
+  useToast,
 } from "@chakra-ui/react";
 import CartTotalContext from '../context/CartTotalProvider'
 import {useContext, useState} from "react";
@@ -33,6 +34,7 @@ export default function CartItem(props) {
   const [cartTotal, setCartTotal] = useContext(CartTotalContext)
   const [cartItems, setCartItems] = useContext(CartItemsContext)
   const [quantity, setQuantity] = React.useState(1);
+  const toast = useToast();
 
 
   let itemTotal = props.item.price * quantity;
@@ -50,6 +52,16 @@ export default function CartItem(props) {
   }
 
   function increment() {
+    if(cartTotal + props.item.price > 1000000){
+      toast({
+        title: 'Insufficent Funds',
+        description: 'You do not have enough money for this item',
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      });
+      return;
+    }
     setQuantity(quantity + 1)
     let curTotal = (quantity+1) * props.item.price
     addTotal(props.item.price)
@@ -79,6 +91,11 @@ export default function CartItem(props) {
         break;
       }
     }
+  }
+
+  let show = "show";
+  if (cartTotal >= 1000000){
+    show = "none";
   }
 
   return (
@@ -142,7 +159,7 @@ export default function CartItem(props) {
               >
                 {quantity}
               </Text>
-              <Text p="2" cursor="pointer" onClick={increment}>
+              <Text p="2" cursor="pointer" display={show} onClick={increment}>
                 +
               </Text>
             </Flex>

@@ -31,8 +31,10 @@ export default function BudgetBar() {
         <Progress
           colorScheme="green"
           height="30px"
-          value={cartTotal/10000}
+          hasStripe
+          value={cartTotal}
           rounded="full"
+          max={1000000}
         />
       </Box>
       <Box

@@ -33,10 +33,21 @@ export default function ItemCard(props) {
           title: 'Cannot add item',
           description: 'Item "' + item.name + '" is already in your cart!',
           status: 'warning',
-          duration: 9000,
+          duration: 5000,
           isClosable: true,
         })
         break;
+      }
+
+      if(1000000 < cartTotal + item.price){
+        toast({
+          title: 'Insufficent Funds',
+          description: 'You do not have enough money for this item',
+          status: 'error',
+          duration: 5000,
+          isClosable: true,
+        });
+        return;
       }
     }
     if (!alreadyAdded) {
