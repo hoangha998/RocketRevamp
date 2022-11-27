@@ -127,11 +127,10 @@ export default function CartItem(props) {
             justify="center"
           >
             <Text fontWeight="Bold" color="green.400">
-              {formatter.format(props.item.price).slice(0,-3)}
-              {/* <Text as="span" fontWeight="100" color="gray.500">
-                {" "}
-                item
-              </Text> */}
+              {formatter.format(props.item.price).slice(0,-3)} 
+              <Text as="span" fontWeight="200" fontSize="12px" color="gray.500">
+                /unit
+              </Text>
             </Text>
           </Box>
           <Box
@@ -144,22 +143,22 @@ export default function CartItem(props) {
             mt="10px"
           >
             <Flex width="100px" margin="auto" align="center">
-              <Text p="2" onClick={decrement} cursor="pointer">
+              <Text p="2" fontSize="20" onClick={decrement} cursor="pointer">
                 -
               </Text>
               <Text
                 border="1px"
                 borderColor="gray"
-                pt="2"
-                pb="2"
-                pr="5"
-                pl="5"
+                pt="1"
+                pb="1"
+                pr="4"
+                pl="4"
                 rounded="md"
-                fontSize="12"
+                fontSize="15"
               >
                 {quantity}
               </Text>
-              <Text p="2" cursor="pointer" display={show} onClick={increment}>
+              <Text p="2" fontSize="20" cursor="pointer" display={show} onClick={increment}>
                 +
               </Text>
             </Flex>
