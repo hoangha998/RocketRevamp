@@ -31,9 +31,13 @@ const IMAGE = "https://il.farnell.com/productimages/large/en_GB/1775788-40.jpg";
 
 export default function CartItem(props) {
 
-  const [cartTotal, setCartTotal] = useContext(CartTotalContext)
-  const [cartItems, setCartItems] = useContext(CartItemsContext)
-  const [quantity, setQuantity] = React.useState(1);
+  const [cartTotal, setCartTotal] = useContext(CartTotalContext);
+  const [cartItems, setCartItems] = useContext(CartItemsContext);
+  let cartItemsIds = Object.keys(cartItems);
+
+  let quantity = cartItems[props.item._id].quantity;
+  // if (cartItems[props.item._id] != undefined)
+  //   quantity = cartItems[props.item._id].quantity;
   const toast = useToast();
 
 
@@ -49,6 +53,12 @@ export default function CartItem(props) {
 
   const subTotal = (newItemTotal) => {
     setCartTotal(cartTotal - newItemTotal);
+  }
+
+  function setQuantity(num) {
+    let copyCartItems = {...cartItems};
+    copyCartItems[props.item._id].quantity = num;
+    setCartItems(copyCartItems);
   }
 
   function increment() {
@@ -82,12 +92,12 @@ export default function CartItem(props) {
 
 
   function deleteItem(item_id){
-    for(let i=0; i<cartItems.length;i++) {
-      if (cartItems[i]._id == item_id) {
-        let copyCartItems = [...cartItems];
-        copyCartItems.splice(i,1);
-        setCartItems(copyCartItems);
+    for(let i=0; i<cartItemsIds.length;i++) {
+      if (cartItemsIds[i] == item_id) {
         setCartTotal(cartTotal - quantity*props.item.price);
+        let copyCartItems = {...cartItems};
+        delete copyCartItems[cartItemsIds[i]];
+        setCartItems(copyCartItems);
         break;
       }
     }
@@ -127,7 +137,7 @@ export default function CartItem(props) {
             justify="center"
           >
             <Text fontWeight="Bold" color="green.400">
-              {formatter.format(props.item.price).slice(0,-3)} 
+              {formatter.format(props.item.price).slice(0,-3)}
               <Text as="span" fontWeight="200" fontSize="12px" color="gray.500">
                 /unit
               </Text>

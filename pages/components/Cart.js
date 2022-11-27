@@ -16,6 +16,7 @@ export default function Cart(props) {
 
   const [cartTotal, setCartTotal] = useContext(CartTotalContext)
   const [cartItems, setCartItems] = useContext(CartItemsContext)
+  let cartItemsIds = Object.keys(cartItems);
 
   const addTotal = (newItemTotal) =>{
     setCartTotal(cartTotal + newItemTotal);
@@ -50,10 +51,10 @@ export default function Cart(props) {
             }}
           >
 
-          {cartItems.map((item) => (
-            <CartItem item={item} />
+          {cartItemsIds.map((item_id) => (
+            <CartItem item={cartItems[item_id].item} />
           ))}
-            // TODO: add "Get Approval" button 
+            // TODO: add "Get Approval" button
           </Box>
         </TabPanel>
         <TabPanel>

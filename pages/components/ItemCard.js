@@ -18,6 +18,7 @@ export default function ItemCard(props) {
 
   const [cartTotal, setCartTotal] = useContext(CartTotalContext)
   const [cartItems, setCartItems] = useContext(CartItemsContext)
+  let cartItemsIds = Object.keys(cartItems);
   const toast = useToast();
   const formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
@@ -26,8 +27,8 @@ export default function ItemCard(props) {
 
   const addItem = (item) =>{
     let alreadyAdded = false;
-    for(let i=0; i < cartItems.length; i++) {
-      if (item._id == cartItems[i]._id) {
+    for(let i=0; i < cartItemsIds.length; i++) {
+      if (item._id == cartItemsIds[i]) {
         alreadyAdded = true;
         toast({
           title: 'Cannot add item',
@@ -51,7 +52,9 @@ export default function ItemCard(props) {
       }
     }
     if (!alreadyAdded) {
-      setCartItems([...cartItems, item]);
+      let copyCartItems = {...cartItems};
+      copyCartItems[props.item._id] = {'item':item, 'quantity':1}
+      setCartItems(copyCartItems);
       setCartTotal(cartTotal + item.price);
     }
   }
