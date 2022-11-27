@@ -27,7 +27,6 @@ import CartTotalContext from "./context/CartTotalProvider";
 
 function Home({ items }) {
   const formBackground = useColorModeValue("gray.700");
-  const [password, setPassword] = useState("");
 
   let items_dict = {
     "Launch Port Rentals": [],
@@ -51,12 +50,10 @@ function Home({ items }) {
     "Your Commander",
   ];
 
-  function checkPassword(){
-    console.log("Approved", password);
-  }
+
 
   return (
-    <Box width="100%">
+    <Box width="100%" >
       <Navbar />
       <Grid templateColumns="repeat(5, 1fr)" gap={4}>
         <GridItem colSpan={3}>
@@ -67,7 +64,8 @@ function Home({ items }) {
           </Box>
         </GridItem>
 
-        <GridItem colStart={4} colEnd={6} float="right">
+        <GridItem colStart={4} colEnd={6} float="right" height="80vh"
+        >
           <Box
             width="30%"
             padding="5"
@@ -79,21 +77,7 @@ function Home({ items }) {
           >
             <BudgetBar />
             <Cart />
-            <Flex gap="5" width="80%" m="auto">
-              <Input
-                type="password"
-                width="80%"
-                pr="5"
-                placeholder="Enter code"
-                required
-                onChange={
-                  (e)=>setPassword(e.currentTarget.value)
-                }
-              />
-              <Button size="md" colorScheme="red" onClick={checkPassword}>
-                Approve
-              </Button>
-            </Flex>
+            
           </Box>
         </GridItem>
       </Grid>
