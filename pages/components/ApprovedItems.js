@@ -177,7 +177,7 @@ export default function ApprovedItems(props) {
                 pb="1"
                 pr="4"
                 pl="4"
-               
+
                 rounded="md"
                 fontSize="15"
               >
@@ -204,6 +204,7 @@ export default function ApprovedItems(props) {
             onClick={function () {
               deleteItem(props.item._id);
             }}
+            display={showDec}
           />
           <Box
             position="relative"

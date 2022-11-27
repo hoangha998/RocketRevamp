@@ -48,18 +48,21 @@ export default function Cart(props) {
   }
 
   function checkPassword(tabPannel) {
-    console.log(tabPannel);
     // console.log(passwo)
     if (tabPannel == "Approve") {
       if (password == "ROCKET") {
-        let copyApprovedtItems = { ...cartItems };
+        let copyApprovedtItems = {...approvedItems};
+        for (let i=0; i<cartItemsIds.length; i++) {
+          let cur_id = cartItemsIds[i];
+          if (approvedItemsIds.includes(cur_id)) {
+            copyApprovedtItems[cur_id].quantity += cartItems[cur_id].quantity;
+          }
+          else
+            copyApprovedtItems[cur_id] = {...cartItems[cur_id]};
+        }
         setApprovedItems(copyApprovedtItems);
         setCartItems({});
-        console.log(approvedItems);
-        console.log("Approved", password);
         setEditMode(false);
-      } else {
-        setApprovedItems({});
       }
     } else if (tabPannel == "Edit") {
       if (password == "MO") {
@@ -95,31 +98,33 @@ export default function Cart(props) {
             {cartItemsIds.map((item_id) => (
               <CartItem item={cartItems[item_id].item} />
             ))}
-          </Box>
-          <Flex gap="5" width="80%" m="auto" mt="5">
-            <Input
-              type="password"
-              width="80%"
-              pr="5"
-              placeholder="Enter code"
-              required
-              display={showCart}
-              onChange={(e) => {
-                setPassword(e.currentTarget.value);
-              }}
-            />
-            <Box display={showCart}>
-              <Button
-                size="md"
-                colorScheme="red"
-                onClick={function () {
-                  checkPassword("Approve");
+
+            <Flex gap="5" width="80%" m="auto" mt="5">
+              <Input
+                type="password"
+                width="80%"
+                pr="5"
+                placeholder="Enter code"
+                required
+                display={showCart}
+                onChange={(e) => {
+                  setPassword(e.currentTarget.value);
                 }}
-              >
-                Approve
-              </Button>
-            </Box>
-          </Flex>
+              />
+              <Box display={showCart}>
+                <Button
+                  size="md"
+                  colorScheme="red"
+                  onClick={function () {
+                    checkPassword("Approve");
+                  }}
+                >
+                  Approve
+                </Button>
+              </Box>
+            </Flex>
+          </Box>
+
         </TabPanel>
         <TabPanel>
           <Box
@@ -182,7 +187,7 @@ export default function Cart(props) {
                 Save
               </Button>
             </Box>
-     
+
           </Flex>
         </TabPanel>
       </TabPanels>

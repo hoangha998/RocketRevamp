@@ -17,7 +17,7 @@ export default function BudgetBar() {
 
   return (
     <Box>
-      <Box width="80%" margin="auto" pb="20px">
+      <Box width="90%" margin="auto" pb="20px" mt="-10">
         <Heading
           as="h2"
           fontSize="32px"
