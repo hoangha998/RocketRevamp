@@ -43,7 +43,7 @@ export default function Cart(props) {
     showCart = "show";
   }
 
-  if(approvedItemsIds.length > 0){
+  if (approvedItemsIds.length > 0) {
     showApprove = "show";
   }
 
@@ -51,14 +51,12 @@ export default function Cart(props) {
     // console.log(passwo)
     if (tabPannel == "Approve") {
       if (password == "ROCKET") {
-        let copyApprovedtItems = {...approvedItems};
-        for (let i=0; i<cartItemsIds.length; i++) {
+        let copyApprovedtItems = { ...approvedItems };
+        for (let i = 0; i < cartItemsIds.length; i++) {
           let cur_id = cartItemsIds[i];
           if (approvedItemsIds.includes(cur_id)) {
             copyApprovedtItems[cur_id].quantity += cartItems[cur_id].quantity;
-          }
-          else
-            copyApprovedtItems[cur_id] = {...cartItems[cur_id]};
+          } else copyApprovedtItems[cur_id] = { ...cartItems[cur_id] };
         }
         setApprovedItems(copyApprovedtItems);
         setCartItems({});
@@ -124,11 +122,10 @@ export default function Cart(props) {
               </Box>
             </Flex>
           </Box>
-
         </TabPanel>
         <TabPanel>
           <Box
-            width="400px"
+            width="100%"
             height="auto"
             margin="auto"
             overflowY="scroll"
@@ -149,46 +146,46 @@ export default function Cart(props) {
                 editMode={editMode}
               />
             ))}
+
+            <Flex gap="5" width="400px" m="auto" m="auto">
+              <Input
+                type="password"
+                width="100%"
+                pr="5"
+                placeholder="Enter code"
+                required
+                display={showApprove}
+                onChange={(e) => {
+                  setPassword(e.currentTarget.value);
+                }}
+              />
+
+              <Box display={showApprove}>
+                <Button
+                  size="md"
+                  pr="8"
+                  pl="8"
+                  colorScheme="red"
+                  onClick={function () {
+                    checkPassword("Edit");
+                  }}
+                >
+                  Edit
+                </Button>
+              </Box>
+              <Box display={showApprove}>
+                <Button
+                  size="md"
+                  colorScheme="blue"
+                  onClick={function () {
+                    setEditMode(false);
+                  }}
+                >
+                  Save
+                </Button>
+              </Box>
+            </Flex>
           </Box>
-          <Flex gap="5" width="80%" m="auto" mt="5">
-            <Input
-              type="password"
-              width="100%"
-              pr="5"
-              placeholder="Enter code"
-              required
-              display={showApprove}
-              onChange={(e) => {
-                setPassword(e.currentTarget.value);
-              }}
-            />
-
-            <Box display={showApprove}>
-              <Button
-                size="md"
-                pr="8"
-                pl="8"
-                colorScheme="red"
-                onClick={function () {
-                  checkPassword("Edit");
-                }}
-              >
-                Edit
-              </Button>
-            </Box>
-            <Box display={showApprove}>
-              <Button
-                size="md"
-                colorScheme="blue"
-                onClick={function () {
-                  setEditMode(false);
-                }}
-              >
-                Save
-              </Button>
-            </Box>
-
-          </Flex>
         </TabPanel>
       </TabPanels>
     </Tabs>

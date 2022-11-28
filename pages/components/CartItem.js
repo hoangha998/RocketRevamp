@@ -22,15 +22,14 @@ import {
   CloseButton,
   useToast,
 } from "@chakra-ui/react";
-import CartTotalContext from '../context/CartTotalProvider'
-import {useContext, useState} from "react";
-import CartItemsContext from '../context/CartItemsProvider'
+import CartTotalContext from "../context/CartTotalProvider";
+import { useContext, useState } from "react";
+import CartItemsContext from "../context/CartItemsProvider";
 
 const IMAGE = "https://il.farnell.com/productimages/large/en_GB/1775788-40.jpg";
 // let quantity = 2;
 
 export default function CartItem(props) {
-
   const [cartTotal, setCartTotal] = useContext(CartTotalContext);
   const [cartItems, setCartItems] = useContext(CartItemsContext);
   let cartItemsIds = Object.keys(cartItems);
@@ -40,62 +39,58 @@ export default function CartItem(props) {
   //   quantity = cartItems[props.item._id].quantity;
   const toast = useToast();
 
-
   let itemTotal = props.item.price * quantity;
-  const formatter = new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD'
+  const formatter = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
   });
 
-  const addTotal = (newItemTotal) =>{
+  const addTotal = (newItemTotal) => {
     setCartTotal(cartTotal + newItemTotal);
-  }
+  };
 
   const subTotal = (newItemTotal) => {
     setCartTotal(cartTotal - newItemTotal);
-  }
+  };
 
   function setQuantity(num) {
-    let copyCartItems = {...cartItems};
+    let copyCartItems = { ...cartItems };
     copyCartItems[props.item._id].quantity = num;
     setCartItems(copyCartItems);
   }
 
   function increment() {
-    if(cartTotal + props.item.price > 1000000){
+    if (cartTotal + props.item.price > 1000000) {
       toast({
-        title: 'Insufficent Funds',
-        description: 'You do not have enough money for this item',
-        status: 'error',
+        title: "Insufficent Funds",
+        description: "You do not have enough money for this item",
+        status: "error",
         duration: 5000,
         isClosable: true,
       });
       return;
     }
-    setQuantity(quantity + 1)
-    let curTotal = (quantity+1) * props.item.price
-    addTotal(props.item.price)
+    setQuantity(quantity + 1);
+    let curTotal = (quantity + 1) * props.item.price;
+    addTotal(props.item.price);
   }
 
   function decrement() {
-    if(quantity > 1){
-      setQuantity(quantity - 1)
-      let curTotal = (quantity-1) * props.item.price
-      subTotal(props.item.price)
-    }
-    else {
-      deleteItem(props.item._id)
+    if (quantity > 1) {
+      setQuantity(quantity - 1);
+      let curTotal = (quantity - 1) * props.item.price;
+      subTotal(props.item.price);
+    } else {
+      deleteItem(props.item._id);
     }
     // else delete this cart item from cart
-
   }
 
-
-  function deleteItem(item_id){
-    for(let i=0; i<cartItemsIds.length;i++) {
+  function deleteItem(item_id) {
+    for (let i = 0; i < cartItemsIds.length; i++) {
       if (cartItemsIds[i] == item_id) {
-        setCartTotal(cartTotal - quantity*props.item.price);
-        let copyCartItems = {...cartItems};
+        setCartTotal(cartTotal - quantity * props.item.price);
+        let copyCartItems = { ...cartItems };
         delete copyCartItems[cartItemsIds[i]];
         setCartItems(copyCartItems);
         break;
@@ -104,54 +99,48 @@ export default function CartItem(props) {
   }
 
   let show = "show";
-  if (cartTotal >= 1000000){
+  if (cartTotal >= 1000000) {
     show = "none";
   }
 
   return (
-    <Box pb="5">
+    <Box pb="5" width="90%">
       <Box
-        width="100%"
-        height="auto"
+        width="90%"
+        height="120px"
         background="#171923"
         rounded="lg"
         justify="space-between"
         display="flex"
       >
-        <Box width="120px" display="flex" alignItems="center" float="left">
-          <Image rounded={"lg"} height={"125px"} width={"auto"} src={props.item.image_link} />
+        <Box width="50%" display="flex" alignItems="center" float="left">
+          <Image
+            rounded={"lg"}
+            height={"100%"}
+            width={"auto"}
+            src={props.item.image_link}
+          />
         </Box>
-        <Box width="150px" direction="column" textAlign="center" float="left">
-          <Box>
-            <Heading fontSize="24px" fontWeight="400" pt="5px" height="50%">
-              {props.item.name}
-            </Heading>
-          </Box>
-          <Box
-            width="100px"
-            margin="auto"
-            display="flex"
-            textAlign="center"
-            alignItems="center"
-            pt="5px"
-            justify="center"
-          >
-            <Text fontWeight="Bold" color="green.400">
-              {formatter.format(props.item.price).slice(0,-3)}
+        <Box
+          width="60%"
+          display="inline"
+          direction="column"
+          pl="2"
+          float="left"
+        >
+          <Heading fontSize="18px" fontWeight="400" pt="5px">
+            {props.item.name}
+          </Heading>
+
+          <Box width="80%" pt="5px" justifyContent="center">
+            <Text fontWeight="Bold" color="green.300">
+              {formatter.format(props.item.price).slice(0, -3)}
               <Text as="span" fontWeight="200" fontSize="12px" color="gray.500">
                 /unit
               </Text>
             </Text>
           </Box>
-          <Box
-            width="100px"
-            height="auto"
-            margin="auto"
-            display="flex"
-            alignItems="center"
-            justify="center"
-            mt="10px"
-          >
+          <Box width="100%" display="flex">
             <Flex width="100px" margin="auto" align="center">
               <Text p="2" fontSize="20" onClick={decrement} cursor="pointer">
                 -
@@ -168,7 +157,13 @@ export default function CartItem(props) {
               >
                 {quantity}
               </Text>
-              <Text p="2" fontSize="20" cursor="pointer" display={show} onClick={increment}>
+              <Text
+                p="2"
+                fontSize="20"
+                cursor="pointer"
+                display={show}
+                onClick={increment}
+              >
                 +
               </Text>
             </Flex>
@@ -176,20 +171,25 @@ export default function CartItem(props) {
         </Box>
 
         <Box width="30%" height="auto">
-          <CloseButton position="relative" left="90px" bottom="0" onClick={function() {deleteItem(props.item._id)}}/>
-          <Box
+          <CloseButton
             position="relative"
-            left="0"
-            top="12"
+            left="65%"
+            bottom="0"
+            onClick={function () {
+              deleteItem(props.item._id);
+            }}
+          />
+          <Box
+            mt="25px"
             border="1px solid #784203"
             background="#A0FFF0"
             rounded="lg"
-            p="px"
+            p="5px"
             textAlign="center"
-            mr="10px"
+            mr="12px"
           >
             <Text fontWeight="500" color="black">
-              {formatter.format(itemTotal).slice(0,-3)}
+              {formatter.format(itemTotal).slice(0, -3)}
             </Text>
           </Box>
         </Box>
