@@ -113,7 +113,7 @@ export default function Cart(props) {
 
             
 
-            <Flex width="80%" >
+            <Flex width="80%" mb="5">
               <Input
                 type="password"
                 width="80%"
@@ -164,7 +164,7 @@ export default function Cart(props) {
               />
             ))}
 
-            <Flex width="80%">
+            <Flex width="80%" mb="5">
               <Input
                 type="password"
                 width="80%"

@@ -78,10 +78,10 @@ function Home({ items }) {
 
 
   return (
-    <Box width="100vh" >
+    <Box width="100%" >
       <Navbar />
       <Grid templateColumns="repeat(5, 1fr)" gap={4}>
-        <GridItem colSpan={3} border="1px solid red" width="80vh">
+        <GridItem colSpan={3} width="80vh">
           <Box width="100%" margin="10">
             {categories.map((cat) => (
               <Category items={items_dict[cat]} category={cat} />
@@ -89,7 +89,7 @@ function Home({ items }) {
           </Box>
         </GridItem>
 
-        <GridItem colStart={4} colEnd={6} float="right" height="80vh"
+        <GridItem colStart={4} colEnd={6} float="right" height="100vh"
         >
           <Box
             width="30%"
@@ -98,7 +98,7 @@ function Home({ items }) {
             position="fixed"
             top="20"
             right="50"
-            height="90vh"
+            height="100vh"
           >
             <BudgetBar />
             <Cart />
