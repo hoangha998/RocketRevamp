@@ -24,7 +24,7 @@ export default function BudgetBar() {
 
   return (
     <Box>
-      <Box width="90%" margin="auto" pb="20px" mt="-10">
+      <Box width="100%" margin="auto" pb="20px" mt="-10">
         <Heading
           as="h2"
           fontSize="32px"
@@ -45,7 +45,7 @@ export default function BudgetBar() {
         />
       </Box>
       <Box
-        width="60%"
+        width="80%"
         display="flex"
         margin="auto"
         justifyContent="center"

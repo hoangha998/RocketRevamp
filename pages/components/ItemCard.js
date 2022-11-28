@@ -80,7 +80,6 @@ export default function ItemCard(props) {
           pos={"relative"}
           height={"110px"}
           width="110px"
-    
           textAlign="center"
           _after={{
             transition: "all .3s ease",
@@ -110,11 +109,20 @@ export default function ItemCard(props) {
           />
         </Box>
 
-        <Stack mt={6} align={"center"}  w="110px" h="auto" textAlign="center">
-          <Heading fontSize={"16"} w="full" h="35px"  fontFamily={"body"} fontWeight={500}>
+        <Stack mt={6} align={"center"} w="110px" h="auto" textAlign="center">
+          <Heading
+            fontSize={"16"}
+            w="full"
+            h="35px"
+            fontFamily={"body"}
+            fontWeight={500}
+          >
             {props.item.name}
           </Heading>
-          <Text as="span" color="gray.300" fontSize="10"> {props.item.note}</Text>
+          <Text as="span" color="gray.300" fontSize="10">
+            {" "}
+            {props.item.note}
+          </Text>
           <Text fontWeight={800} fontSize={"20"} color="green.400">
             {formatter.format(props.item.price).slice(0, -3)}
           </Text>

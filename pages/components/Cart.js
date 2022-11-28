@@ -17,7 +17,6 @@ import CartItem from "./CartItem";
 import ApprovedItem from "./ApprovedItems";
 import ApprovedItemsContext from "../context/ApprovedItemsProvider";
 import { setCookie, getCookie, hasCookie } from 'cookies-next';
-import Test from "./Test";
 
 export default function Cart(props) {
   const [cartTotal, setCartTotal] = useContext(CartTotalContext);
@@ -96,6 +95,9 @@ export default function Cart(props) {
             overflowY="scroll"
             scrollbar="none"
             maxHeight="55vh"
+            display = "flex"
+            flexDirection="column"
+            justifyContent="center"
             sx={{
               "&::-webkit-scrollbar": {
                 display: "visible",
@@ -111,7 +113,7 @@ export default function Cart(props) {
 
             
 
-            <Flex gap="5" width="80%" m="auto" mt="5">
+            <Flex width="80%" >
               <Input
                 type="password"
                 width="80%"
@@ -122,8 +124,9 @@ export default function Cart(props) {
                 onChange={(e) => {
                   setPassword(e.currentTarget.value);
                 }}
+                float="left"
               />
-              <Box display={showCart}>
+              <Box display={showCart} pl="5">
                 <Button
                   size="md"
                   colorScheme="red"
@@ -161,10 +164,10 @@ export default function Cart(props) {
               />
             ))}
 
-            <Flex gap="5" width="80%" m="auto" mt="5px">
+            <Flex width="80%">
               <Input
                 type="password"
-                width="100%"
+                width="80%"
                 pr="5"
                 placeholder="Enter code"
                 required
@@ -178,7 +181,8 @@ export default function Cart(props) {
                 <Button
                   size="md"
                   pr="8"
-                  pl="8"
+                  ml="2"
+                  pl="8" mr="2"
                   colorScheme="red"
                   onClick={function () {
                     checkPassword("Edit");

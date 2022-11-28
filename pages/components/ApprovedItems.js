@@ -130,7 +130,7 @@ export default function ApprovedItems(props) {
           src={props.item.image_link}
         />
       </Box>
-      <Stack pl="2" width="100px" justifyContent="space-around">
+      <Stack pl="2" width="105px" justifyContent="space-around">
         <Text as="h4" fontWeight="400">
           {props.item.name}
         </Text>
@@ -159,7 +159,7 @@ export default function ApprovedItems(props) {
           >
             {quantity}
           </Text>
-          <Text pl="1" display={showInc} onClick={increment}>
+          <Text pl="1" display={showInc} onClick={increment} cursor="pointer">
             +
           </Text>
         </Flex>
