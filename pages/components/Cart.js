@@ -16,6 +16,9 @@ import { useContext, useState } from "react";
 import CartItem from "./CartItem";
 import ApprovedItem from "./ApprovedItems";
 import ApprovedItemsContext from "../context/ApprovedItemsProvider";
+import { setCookie, getCookie, hasCookie } from 'cookies-next';
+
+
 export default function Cart(props) {
   const [cartTotal, setCartTotal] = useContext(CartTotalContext);
   const [cartItems, setCartItems] = useContext(CartItemsContext);
@@ -51,20 +54,29 @@ export default function Cart(props) {
     // console.log(passwo)
     if (tabPannel == "Approve") {
       if (password == "ROCKET") {
-        let copyApprovedtItems = { ...approvedItems };
+        let copyApprovedItems = { ...approvedItems };
         for (let i = 0; i < cartItemsIds.length; i++) {
           let cur_id = cartItemsIds[i];
           if (approvedItemsIds.includes(cur_id)) {
-            copyApprovedtItems[cur_id].quantity += cartItems[cur_id].quantity;
-          } else copyApprovedtItems[cur_id] = { ...cartItems[cur_id] };
+            copyApprovedItems[cur_id].quantity += cartItems[cur_id].quantity;
+          } else copyApprovedItems[cur_id] = { ...cartItems[cur_id] };
         }
-        setApprovedItems(copyApprovedtItems);
+        setApprovedItems(copyApprovedItems);
         setCartItems({});
         setEditMode(false);
+        setCookie("approved", copyApprovedItems, {maxAge: 20});
       }
     } else if (tabPannel == "Edit") {
       if (password == "MO") {
         setEditMode(true);
+        if (hasCookie('approved')) {
+          let test = JSON.parse(getCookie("approved"));
+          console.log("cookie:");
+          console.log(test);
+          console.log(Object.keys(test));
+        }
+        else
+          console.log("no cookie exists");
       }
     }
   }

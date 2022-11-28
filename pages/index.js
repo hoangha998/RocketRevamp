@@ -20,12 +20,37 @@ import CartItem from "./components/CartItem";
 import Category from "./components/Category";
 import BudgetBar from "./components/BudgetBar";
 import Cart from "./components/Cart";
-import { useContext, useState } from "react";
 import clientPromise from "../lib/mongodb";
 
+import { useContext, useState } from "react";
+import { setCookie, getCookie, hasCookie } from 'cookies-next';
 import CartTotalContext from "./context/CartTotalProvider";
+import CartItemsContext from "./context/CartItemsProvider";
+import ApprovedItemsContext from "./context/ApprovedItemsProvider";
+import { useEffect } from 'react';
 
 function Home({ items }) {
+
+  // check for cookies
+  const [cartTotal, setCartTotal] = useContext(CartTotalContext);
+  const [cartItems, setCartItems] = useContext(CartItemsContext);
+  const [approvedItems, setApprovedItems] = useContext(ApprovedItemsContext);
+  if (hasCookie('cartTotal')) {
+    let cookie_cartTotal = parseInt(getCookie('cartTotal'));
+    setCartTotal(cookie_cartTotal);
+  }
+  useEffect(() => {
+  if (hasCookie('cartItems')) {
+    let cookie_cartItems = JSON.parse(getCookie('cartItems'));
+    setCartItems(cookie_cartItems, false);
+    console.log("has cookie");
+  }
+  }, []);
+  if (hasCookie('approvedItems')) {
+    let cookie_approvedItems = JSON.parse(getCookie('approvedItems'));
+    setApprovedItems(cookie_approvedItems);
+  }
+
   const formBackground = useColorModeValue("gray.700");
 
   let items_dict = {
@@ -77,7 +102,7 @@ function Home({ items }) {
           >
             <BudgetBar />
             <Cart />
-            
+
           </Box>
         </GridItem>
       </Grid>
