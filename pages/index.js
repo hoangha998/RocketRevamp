@@ -35,21 +35,21 @@ function Home({ items }) {
   const [cartTotal, setCartTotal] = useContext(CartTotalContext);
   const [cartItems, setCartItems] = useContext(CartItemsContext);
   const [approvedItems, setApprovedItems] = useContext(ApprovedItemsContext);
+  
+  useEffect(() => {
   if (hasCookie('cartTotal')) {
     let cookie_cartTotal = parseInt(getCookie('cartTotal'));
-    setCartTotal(cookie_cartTotal);
-  }
-  useEffect(() => {
+    setCartTotal(cookie_cartTotal, false);
+  };
   if (hasCookie('cartItems')) {
     let cookie_cartItems = JSON.parse(getCookie('cartItems'));
     setCartItems(cookie_cartItems, false);
-    console.log("has cookie");
-  }
-  }, []);
+  };
   if (hasCookie('approvedItems')) {
     let cookie_approvedItems = JSON.parse(getCookie('approvedItems'));
-    setApprovedItems(cookie_approvedItems);
-  }
+    setApprovedItems(cookie_approvedItems, false);
+  };
+}, []);
 
   const formBackground = useColorModeValue("gray.700");
 

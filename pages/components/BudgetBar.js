@@ -15,6 +15,13 @@ export default function BudgetBar() {
     currency: 'USD'
   });
 
+  let color = "green"
+  if(cartTotal > 500000 && cartTotal < 750000){
+    color = "orange";
+  }else if(cartTotal > 750000 && cartTotal < 1000000){
+    color = "red";
+  }
+
   return (
     <Box>
       <Box width="90%" margin="auto" pb="20px" mt="-10">
@@ -29,7 +36,7 @@ export default function BudgetBar() {
           Budget Bar
         </Heading>
         <Progress
-          colorScheme="green"
+          colorScheme={color}
           height="30px"
           hasStripe
           value={cartTotal}
@@ -38,7 +45,7 @@ export default function BudgetBar() {
         />
       </Box>
       <Box
-        width="50%"
+        width="60%"
         display="flex"
         margin="auto"
         justifyContent="center"
@@ -46,7 +53,7 @@ export default function BudgetBar() {
         pb="15px"
       >
         <Box
-          width="160px"
+          width="180px"
           bg="blue.900"
           p="4"
           color="white"
@@ -57,11 +64,10 @@ export default function BudgetBar() {
           alignItems="center"
           justifyContent="space-between"
         >
-          <Text fontSize="md" as="span">
+          <Text fontSize="lg" as="span">
             Total:
           </Text>
-          {/* <Text>$350,000</Text> */}
-          <Text>{formatter.format(cartTotal).slice(0,-3)}</Text>
+          <Text fontSize="xl">{formatter.format(cartTotal).slice(0,-3)}</Text>
         </Box>
       </Box>
     </Box>

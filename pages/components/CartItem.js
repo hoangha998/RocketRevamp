@@ -21,6 +21,7 @@ import {
   SelectProps,
   CloseButton,
   useToast,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import CartTotalContext from "../context/CartTotalProvider";
 import { useContext, useState } from "react";
@@ -104,96 +105,80 @@ export default function CartItem(props) {
   }
 
   return (
-    <Box pb="5" width="90%">
-      <Box
-        width="90%"
-        height="120px"
-        background="#171923"
-        rounded="lg"
-        justify="space-between"
-        display="flex"
-      >
-        <Box width="50%" display="flex" alignItems="center" float="left">
-          <Image
-            rounded={"lg"}
-            height={"100%"}
-            width={"auto"}
-            src={props.item.image_link}
-          />
-        </Box>
-        <Box
-          width="60%"
-          display="inline"
-          direction="column"
-          pl="2"
-          float="left"
-        >
-          <Heading fontSize="18px" fontWeight="400" pt="5px">
-            {props.item.name}
-          </Heading>
-
-          <Box width="80%" pt="5px" justifyContent="center">
-            <Text fontWeight="Bold" color="green.300">
-              {formatter.format(props.item.price).slice(0, -3)}
-              <Text as="span" fontWeight="200" fontSize="12px" color="gray.500">
-                /unit
-              </Text>
-            </Text>
-          </Box>
-          <Box width="100%" display="flex">
-            <Flex width="100px" margin="auto" align="center">
-              <Text p="2" fontSize="20" onClick={decrement} cursor="pointer">
-                -
-              </Text>
-              <Text
-                border="1px"
-                borderColor="gray"
-                pt="1"
-                pb="1"
-                pr="4"
-                pl="4"
-                rounded="md"
-                fontSize="15"
-              >
-                {quantity}
-              </Text>
-              <Text
-                p="2"
-                fontSize="20"
-                cursor="pointer"
-                display={show}
-                onClick={increment}
-              >
-                +
-              </Text>
-            </Flex>
-          </Box>
-        </Box>
-
-        <Box width="30%" height="auto">
-          <CloseButton
-            position="relative"
-            left="65%"
-            bottom="0"
-            onClick={function () {
-              deleteItem(props.item._id);
-            }}
-          />
-          <Box
-            mt="25px"
-            border="1px solid #784203"
-            background="#A0FFF0"
-            rounded="lg"
-            p="5px"
-            textAlign="center"
-            mr="12px"
-          >
-            <Text fontWeight="500" color="black">
-              {formatter.format(itemTotal).slice(0, -3)}
-            </Text>
-          </Box>
-        </Box>
+    <Flex
+      width="80%"
+      height="125px"
+      float="left"
+      bg={useColorModeValue("white", "gray.900")}
+      rounded="lg"
+      mb="5"
+      justifyContent="space-around"
+    >
+      <Box display="flex" width="125px"  float="left">
+        <Image
+          rounded={"lg"}
+          height={"125px"}
+          width={"125px"}
+          src={props.item.image_link}
+        />
       </Box>
-    </Box>
+      <Stack  width="100px" float="left" pl="2">
+        <Text as="h4" fontWeight="400">
+          {props.item.name}
+        </Text>
+        <Text
+          as="span"
+          fontSize="12px"
+          fontWeight="300"
+          color={useColorModeValue("white", "green.300")}
+        >
+          {formatter.format(props.item.price).slice(0, -3)}
+          <Text as="span" fontWeight="200" fontSize="12px" color="gray.500">
+            /unit
+          </Text>
+        </Text>
+        <Flex m="auto" align="center" position="relative" top="5px">
+          <Text pr="1" onClick={decrement} cursor="pointer">
+            -
+          </Text>
+          <Text
+            border="1px solid white"
+            rounded="md"
+            pt="1"
+            pb="1"
+            pr="4"
+            pl="4"
+          >
+            {quantity}
+          </Text>
+          <Text pl="1" display={show} onClick={increment}>
+            +
+          </Text>
+        </Flex>
+      </Stack>
+      <Stack display="flex" width="90px">
+        <CloseButton
+          position="relative"
+          left="55px"
+          bottom="0"
+          
+          onClick={function () {
+            deleteItem(props.item._id);
+          }}
+        />
+        <Box
+          position="relative"
+          top="45px"
+          right="5px"
+          border="1px solid green"
+          rounded="md"
+          textAlign="center"
+          p="1"
+          color={useColorModeValue("white", "green.300")}
+        >
+          {formatter.format(itemTotal).slice(0, -3)}
+        </Box>
+      </Stack>
+    </Flex>
   );
 }

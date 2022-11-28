@@ -64,7 +64,7 @@ export default function ItemCard(props) {
       <Box
         role={"group"}
         p={6}
-        maxW={"150px"}
+        maxW={"160px"}
         height={"280px"}
         w={"full"}
         bg={useColorModeValue("white", "gray.700")}
@@ -78,7 +78,10 @@ export default function ItemCard(props) {
           rounded={"lg"}
           mt={-10}
           pos={"relative"}
-          height={"100px"}
+          height={"110px"}
+          width="110px"
+    
+          textAlign="center"
           _after={{
             transition: "all .3s ease",
             content: '""',
@@ -99,15 +102,16 @@ export default function ItemCard(props) {
         >
           <Image
             rounded={"lg"}
-            height={"100%"}
-            width={"auto"}
+            height={"110px"}
+            width="110px"
+            // width={"auto"}
             objectFit={"cover"}
             src={props.item.image_link}
           />
         </Box>
 
-        <Stack pt={8} align={"center"}>
-          <Heading fontSize={"16"} fontFamily={"body"} fontWeight={500}>
+        <Stack mt={6} align={"center"}  w="110px" h="auto" textAlign="center">
+          <Heading fontSize={"16"} w="full" h="35px"  fontFamily={"body"} fontWeight={500}>
             {props.item.name}
           </Heading>
           <Text as="span" color="gray.300" fontSize="10"> {props.item.note}</Text>
@@ -120,6 +124,8 @@ export default function ItemCard(props) {
             onClick={function () {
               addItem(props.item);
             }}
+            position="absolute"
+            bottom="15px"
           >
             {" "}
             Add to cart{" "}

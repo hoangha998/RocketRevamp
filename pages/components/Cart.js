@@ -17,7 +17,7 @@ import CartItem from "./CartItem";
 import ApprovedItem from "./ApprovedItems";
 import ApprovedItemsContext from "../context/ApprovedItemsProvider";
 import { setCookie, getCookie, hasCookie } from 'cookies-next';
-
+import Test from "./Test";
 
 export default function Cart(props) {
   const [cartTotal, setCartTotal] = useContext(CartTotalContext);
@@ -109,6 +109,8 @@ export default function Cart(props) {
               <CartItem item={cartItems[item_id].item} />
             ))}
 
+            
+
             <Flex gap="5" width="80%" m="auto" mt="5">
               <Input
                 type="password"
@@ -136,8 +138,8 @@ export default function Cart(props) {
           </Box>
         </TabPanel>
         <TabPanel>
-          <Box
-            width="100%"
+        <Box
+            width="400px"
             height="auto"
             margin="auto"
             overflowY="scroll"
@@ -159,7 +161,7 @@ export default function Cart(props) {
               />
             ))}
 
-            <Flex gap="5" width="400px" m="auto" m="auto">
+            <Flex gap="5" width="80%" m="auto" mt="5px">
               <Input
                 type="password"
                 width="100%"

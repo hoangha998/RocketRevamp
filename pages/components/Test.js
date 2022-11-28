@@ -21,26 +21,22 @@ import {
   SelectProps,
   CloseButton,
   useToast,
-  useColorModeValue,
 } from "@chakra-ui/react";
 import CartTotalContext from "../context/CartTotalProvider";
 import { useContext, useState } from "react";
 import CartItemsContext from "../context/CartItemsProvider";
-import ApprovedItemsContext from "../context/ApprovedItemsProvider";
 
-const IMAGE = "https://il.farnell.com/productimages/large/en_GB/1775788-40.jpg";
-// let quantity = 2;
+export default function Test(props) {
+  const IMAGE =
+    "https://il.farnell.com/productimages/large/en_GB/1775788-40.jpg";
 
-export default function ApprovedItems(props) {
-  const [cartTotal, setCartTotal] = useContext(CartTotalContext);
+    const [cartTotal, setCartTotal] = useContext(CartTotalContext);
   const [cartItems, setCartItems] = useContext(CartItemsContext);
-  const [approvedItems, setApprovedItems] = useContext(ApprovedItemsContext);
-
   let cartItemsIds = Object.keys(cartItems);
-  let approvedItemsIds = Object.keys(approvedItems);
 
-  const [password, setPassword] = useState("");
-  let quantity = approvedItems[props.item._id].quantity;
+  let quantity = cartItems[props.item._id].quantity;
+  // if (cartItems[props.item._id] != undefined)
+  //   quantity = cartItems[props.item._id].quantity;
   const toast = useToast();
 
   let itemTotal = props.item.price * quantity;
@@ -58,9 +54,9 @@ export default function ApprovedItems(props) {
   };
 
   function setQuantity(num) {
-    let copyApprovedItems = { ...approvedItems };
-    copyApprovedItems[props.item._id].quantity = num;
-    setApprovedItems(copyApprovedItems);
+    let copyCartItems = { ...cartItems };
+    copyCartItems[props.item._id].quantity = num;
+    setCartItems(copyCartItems);
   }
 
   function increment() {
@@ -87,50 +83,39 @@ export default function ApprovedItems(props) {
     } else {
       deleteItem(props.item._id);
     }
+    // else delete this cart item from cart
   }
 
   function deleteItem(item_id) {
-    for (let i = 0; i < approvedItemsIds.length; i++) {
-      if (approvedItemsIds[i] == item_id) {
+    for (let i = 0; i < cartItemsIds.length; i++) {
+      if (cartItemsIds[i] == item_id) {
         setCartTotal(cartTotal - quantity * props.item.price);
-        let copyApprovedItems = { ...approvedItems };
-        delete copyApprovedItems[approvedItemsIds[i]];
-        setApprovedItems(copyApprovedItems);
+        let copyCartItems = { ...cartItems };
+        delete copyCartItems[cartItemsIds[i]];
+        setCartItems(copyCartItems);
         break;
       }
     }
   }
 
-  let showInc = "none";
-  let showDec = "none";
-  if (props.editMode) {
-    if (cartTotal >= 1000000) {
-      showInc = "none";
-    } else {
-      showInc = "show";
-    }
-    showDec = "show";
+  let show = "show";
+  if (cartTotal >= 1000000) {
+    show = "none";
   }
 
   return (
     <Flex
       width="80%"
-      height="125px"
+      height="120px"
       float="left"
       bg={useColorModeValue("white", "gray.900")}
       rounded="lg"
       mb="5"
-      justifyContent="space-around"
     >
-      <Box display="flex" width="125px"  float="left" > 
-        <Image
-          rounded={"lg"}
-          height={"125px"}
-          width={"125px"}
-          src={props.item.image_link}
-        />
+      <Box>
+        <Image rounded={"lg"} height={"120px"} width={"140px"} src={props.item.image_link} />
       </Box>
-      <Stack pl="2" width="100px" justifyContent="space-around">
+      <Stack pl="2">
         <Text as="h4" fontWeight="400">
           {props.item.name}
         </Text>
@@ -142,51 +127,28 @@ export default function ApprovedItems(props) {
         >
           {formatter.format(props.item.price).slice(0, -3)}
           <Text as="span" fontWeight="200" fontSize="12px" color="gray.500">
-            /unit
-          </Text>
+                /unit
+              </Text>
         </Text>
-        <Flex m="auto" align="center" position="relative" bottom="2px">
-          <Text pr="1" onClick={decrement} cursor="pointer" display={showDec}>
-            -
-          </Text>
-          <Text
-            border="1px solid white"
-            rounded="md"
-            pt="1"
-            pb="1"
-            pr="4"
-            pl="4"
-          >
+        <Flex m="auto" align="center" position="relative" bottom="2px" >
+          <Text pr="1" onClick={decrement} cursor="pointer">-</Text>
+          <Text border="1px solid white" rounded="md" pt="1" pb="1" pr="4" pl="4">
             {quantity}
           </Text>
-          <Text pl="1" display={showInc} onClick={increment}>
-            +
-          </Text>
+          <Text pl="1" display={show}
+                onClick={increment}>+</Text>
         </Flex>
       </Stack>
-      <Stack display="flex" width="auto" m="auto" h="120px" justifyContent="center">
+      <Stack>
         <CloseButton
           position="relative"
-          width="75px"
-          left="30px"
-          bottom="20px"
-          display={showDec}
+          left="55%"
+          bottom="0"
           onClick={function () {
             deleteItem(props.item._id);
           }}
         />
-        <Box
-          position="relative"
-          top="20px"
-          right="5px"
-          border="1px solid green"
-          rounded="md"
-          p="1"
-          textAlign="center"
-          color={useColorModeValue("white", "green.300")}
-        >
-          {formatter.format(itemTotal).slice(0, -3)}
-        </Box>
+        <Box position="relative" top="20px" right="15px" border="1px solid green" rounded="md" p="1" color={useColorModeValue("white", "green.300")}>{formatter.format(itemTotal).slice(0, -3)}</Box>
       </Stack>
     </Flex>
   );
