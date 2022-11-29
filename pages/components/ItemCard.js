@@ -9,11 +9,27 @@ import {
   Image,
   useToast,
 } from "@chakra-ui/react";
-import CartItemsContext from "../context/CartItemsProvider";
-import CartTotalContext from "../context/CartTotalProvider";
+import CartItemsContext from "../../context/CartItemsProvider";
+import CartTotalContext from "../../context/CartTotalProvider";
 import { useContext, useState } from "react";
 
 export default function ItemCard(props) {
+
+  let id = 0;
+  let price = 0;
+  let quantity = 0;
+  let image_link = '';
+  let name = '';
+  let note = '';
+  if (props.item != undefined) {
+    id = props.item._id;
+    price = props.item.price;
+    quantity = cartItems[props.item._id].quantity;
+    image_link = props.item.image_link;
+    name = props.item.name;
+    note = props.item.note;
+  }
+
   const [cartTotal, setCartTotal] = useContext(CartTotalContext);
   const [cartItems, setCartItems] = useContext(CartItemsContext);
   let cartItemsIds = Object.keys(cartItems);
@@ -24,7 +40,7 @@ export default function ItemCard(props) {
   });
 
   const addItem = (item) => {
-    if (1000000 < cartTotal + item.price) {
+    if (1000000 < cartTotal + price) {
       toast({
         title: "Insufficent Funds",
         description: "You do not have enough money for this item",
@@ -40,16 +56,16 @@ export default function ItemCard(props) {
       if (item._id == cartItemsIds[i]) {
         alreadyAdded = true;
         let copyCartItems = { ...cartItems };
-        copyCartItems[item._id].quantity += 1;
+        copyCartItems[id].quantity += 1;
         setCartItems(copyCartItems);
-        setCartTotal(cartTotal + item.price);
+        setCartTotal(cartTotal + price);
         return;
       }
     }
 
     if (!alreadyAdded) {
       let copyCartItems = { ...cartItems };
-      copyCartItems[props.item._id] = { item: item, quantity: 1 };
+      copyCartItems[id] = { item: item, quantity: 1 };
       setCartItems(copyCartItems);
       setCartTotal(cartTotal + item.price);
     }
@@ -103,7 +119,7 @@ export default function ItemCard(props) {
             width="110px"
             // width={"auto"}
             objectFit={"cover"}
-            src={props.item.image_link}
+            src={image_link}
           />
         </Box>
 
@@ -115,14 +131,14 @@ export default function ItemCard(props) {
             fontFamily={"body"}
             fontWeight={500}
           >
-            {props.item.name}
+            {name}
           </Heading>
           <Text as="span" color="gray.300" fontSize="11">
             {" "}
-            {props.item.note}
+            {note}
           </Text>
           <Text fontWeight={800} fontSize={"20"} color="green.400">
-            {formatter.format(props.item.price).slice(0, -3)}
+            {formatter.format(price).slice(0, -3)}
           </Text>
           <Button
             mb={6}

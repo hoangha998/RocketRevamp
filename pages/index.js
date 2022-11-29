@@ -24,9 +24,9 @@ import clientPromise from "../lib/mongodb";
 
 import { useContext, useState } from "react";
 import { setCookie, getCookie, hasCookie } from 'cookies-next';
-import CartTotalContext from "./context/CartTotalProvider";
-import CartItemsContext from "./context/CartItemsProvider";
-import ApprovedItemsContext from "./context/ApprovedItemsProvider";
+import CartTotalContext from "../context/CartTotalProvider";
+import CartItemsContext from "../context/CartItemsProvider";
+import ApprovedItemsContext from "../context/ApprovedItemsProvider";
 import { useEffect } from 'react';
 
 function Home({ items, admin_code }) {
@@ -81,7 +81,7 @@ function Home({ items, admin_code }) {
         <GridItem colSpan={3} width="80vh">
           <Box width="100%" margin="10">
             {categories.map((cat) => (
-              <Category items={items_dict[cat]} category={cat} />
+              <Category key={cat} items={items_dict[cat]} category={cat} />
             ))}
           </Box>
         </GridItem>

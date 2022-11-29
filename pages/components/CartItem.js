@@ -23,22 +23,36 @@ import {
   useToast,
   useColorModeValue,
 } from "@chakra-ui/react";
-import CartTotalContext from "../context/CartTotalProvider";
+import CartTotalContext from "../../context/CartTotalProvider";
 import { useContext, useState } from "react";
-import CartItemsContext from "../context/CartItemsProvider";
+import CartItemsContext from "../../context/CartItemsProvider";
 
 const IMAGE = "https://il.farnell.com/productimages/large/en_GB/1775788-40.jpg";
 // let quantity = 2;
 
 export default function CartItem(props) {
+
+  let id = 0;
+  let price = 0;
+  let quantity = 0;
+  let image_link = '';
+  let name = '';
+  if (props.item != undefined) {
+    id = props.item._id;
+    price = props.item.price;
+    quantity = cartItems[props.item._id].quantity;
+    image_link = props.item.image_link;
+    name = props.item.name
+  }
+
   const [cartTotal, setCartTotal] = useContext(CartTotalContext);
   const [cartItems, setCartItems] = useContext(CartItemsContext);
   let cartItemsIds = Object.keys(cartItems);
 
-  let quantity = cartItems[props.item._id].quantity;
+  // let quantity = cartItems[props.item._id].quantity;
   const toast = useToast();
 
-  let itemTotal = props.item.price * quantity;
+  let itemTotal = price * quantity;
   const formatter = new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
@@ -54,12 +68,12 @@ export default function CartItem(props) {
 
   function setQuantity(num) {
     let copyCartItems = { ...cartItems };
-    copyCartItems[props.item._id].quantity = num;
+    copyCartItems[id].quantity = num;
     setCartItems(copyCartItems);
   }
 
   function increment() {
-    if (cartTotal + props.item.price > 1000000) {
+    if (cartTotal + price > 1000000) {
       toast({
         title: "Insufficent Funds",
         description: "You do not have enough money for this item",
@@ -70,17 +84,17 @@ export default function CartItem(props) {
       return;
     }
     setQuantity(quantity + 1);
-    let curTotal = (quantity + 1) * props.item.price;
-    addTotal(props.item.price);
+    let curTotal = (quantity + 1) * price;
+    addTotal(price);
   }
 
   function decrement() {
     if (quantity > 1) {
       setQuantity(quantity - 1);
-      let curTotal = (quantity - 1) * props.item.price;
-      subTotal(props.item.price);
+      let curTotal = (quantity - 1) * price;
+      subTotal(price);
     } else {
-      deleteItem(props.item._id);
+      deleteItem(id);
     }
     // else delete this cart item from cart
   }
@@ -88,7 +102,7 @@ export default function CartItem(props) {
   function deleteItem(item_id) {
     for (let i = 0; i < cartItemsIds.length; i++) {
       if (cartItemsIds[i] == item_id) {
-        setCartTotal(cartTotal - quantity * props.item.price);
+        setCartTotal(cartTotal - quantity * price);
         let copyCartItems = { ...cartItems };
         delete copyCartItems[cartItemsIds[i]];
         setCartItems(copyCartItems);
@@ -117,12 +131,12 @@ export default function CartItem(props) {
           rounded={"lg"}
           height={"125px"}
           width={"125px"}
-          src={props.item.image_link}
+          src={image_link}
         />
       </Box>
       <Stack  width="100px" float="left" pl="2">
         <Text as="h4" fontWeight="400">
-          {props.item.name}
+          {name}
         </Text>
         <Text
           as="span"
@@ -130,7 +144,7 @@ export default function CartItem(props) {
           fontWeight="300"
           color={useColorModeValue("white", "green.300")}
         >
-          {formatter.format(props.item.price).slice(0, -3)}
+          {formatter.format(price).slice(0, -3)}
           <Text as="span" fontWeight="200" fontSize="12px" color="gray.500">
             /unit
           </Text>
@@ -161,7 +175,7 @@ export default function CartItem(props) {
           bottom="0"
 
           onClick={function () {
-            deleteItem(props.item._id);
+            deleteItem(id);
           }}
         />
         <Box

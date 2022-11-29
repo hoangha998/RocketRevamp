@@ -4,7 +4,7 @@ import {
   Progress,
   Text,
 } from "@chakra-ui/react";
-import CartTotalContext from '../context/CartTotalProvider'
+import CartTotalContext from '../../context/CartTotalProvider'
 import {useContext, useState} from "react";
 
 export default function BudgetBar() {
@@ -24,11 +24,10 @@ export default function BudgetBar() {
 
   return (
     <Box>
-      <Box width="100%" margin="auto" pb="20px" mt="-10">
+      <Box width="100%" ml='auto' mr='auto' pb="20px" mt="-10">
         <Heading
           as="h2"
           fontSize="32px"
-          fontWeight="1"
           padding="5"
           textAlign="center"
           fontWeight="bold"

@@ -23,15 +23,32 @@ import {
   useToast,
   useColorModeValue,
 } from "@chakra-ui/react";
-import CartTotalContext from "../context/CartTotalProvider";
+import CartTotalContext from "../../context/CartTotalProvider";
 import { useContext, useState } from "react";
-import CartItemsContext from "../context/CartItemsProvider";
-import ApprovedItemsContext from "../context/ApprovedItemsProvider";
+import CartItemsContext from "../../context/CartItemsProvider";
+import ApprovedItemsContext from "../../context/ApprovedItemsProvider";
 
 const IMAGE = "https://il.farnell.com/productimages/large/en_GB/1775788-40.jpg";
 // let quantity = 2;
 
 export default function ApprovedItems(props) {
+
+  let id = 0;
+  let price = 0;
+  let image_link = '';
+  let name = '';
+  let editMode = false;
+  let quantity = 0;
+  if (props.item != undefined) {
+    id = props.item._id;
+    price = props.item.price;
+    image_link = props.item.image_link;
+    name = props.item.name;
+  }
+  if (props.editMode != undefined) {
+    editMode = props.editMode;
+  }
+
   const [cartTotal, setCartTotal] = useContext(CartTotalContext);
   const [cartItems, setCartItems] = useContext(CartItemsContext);
   const [approvedItems, setApprovedItems] = useContext(ApprovedItemsContext);
@@ -40,10 +57,11 @@ export default function ApprovedItems(props) {
   let approvedItemsIds = Object.keys(approvedItems);
 
   const [password, setPassword] = useState("");
-  let quantity = approvedItems[props.item._id].quantity;
+  if (approvedItems[id] != undefined)
+    quantity = approvedItems[id].quantity;
   const toast = useToast();
 
-  let itemTotal = props.item.price * quantity;
+  let itemTotal = price * quantity;
   const formatter = new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
@@ -59,12 +77,12 @@ export default function ApprovedItems(props) {
 
   function setQuantity(num) {
     let copyApprovedItems = { ...approvedItems };
-    copyApprovedItems[props.item._id].quantity = num;
+    copyApprovedItems[id].quantity = num;
     setApprovedItems(copyApprovedItems);
   }
 
   function increment() {
-    if (cartTotal + props.item.price > 1000000) {
+    if (cartTotal + price > 1000000) {
       toast({
         title: "Insufficent Funds",
         description: "You do not have enough money for this item",
@@ -75,24 +93,24 @@ export default function ApprovedItems(props) {
       return;
     }
     setQuantity(quantity + 1);
-    let curTotal = (quantity + 1) * props.item.price;
-    addTotal(props.item.price);
+    let curTotal = (quantity + 1) * price;
+    addTotal(price);
   }
 
   function decrement() {
     if (quantity > 1) {
       setQuantity(quantity - 1);
-      let curTotal = (quantity - 1) * props.item.price;
-      subTotal(props.item.price);
+      let curTotal = (quantity - 1) * price;
+      subTotal(price);
     } else {
-      deleteItem(props.item._id);
+      deleteItem(id);
     }
   }
 
   function deleteItem(item_id) {
     for (let i = 0; i < approvedItemsIds.length; i++) {
       if (approvedItemsIds[i] == item_id) {
-        setCartTotal(cartTotal - quantity * props.item.price);
+        setCartTotal(cartTotal - quantity * price);
         let copyApprovedItems = { ...approvedItems };
         delete copyApprovedItems[approvedItemsIds[i]];
         setApprovedItems(copyApprovedItems);
@@ -103,7 +121,7 @@ export default function ApprovedItems(props) {
 
   let showInc = "none";
   let showDec = "none";
-  if (props.editMode) {
+  if (editMode) {
     if (cartTotal >= 1000000) {
       showInc = "none";
     } else {
@@ -122,17 +140,17 @@ export default function ApprovedItems(props) {
       mb="5"
       justifyContent="space-around"
     >
-      <Box display="flex" width="125px"  float="left" > 
+      <Box display="flex" width="125px"  float="left" >
         <Image
           rounded={"lg"}
           height={"125px"}
           width={"125px"}
-          src={props.item.image_link}
+          src={image_link}
         />
       </Box>
       <Stack pl="2" width="105px" justifyContent="space-around">
         <Text as="h4" fontWeight="400">
-          {props.item.name}
+          {name}
         </Text>
         <Text
           as="span"
@@ -140,7 +158,7 @@ export default function ApprovedItems(props) {
           fontWeight="300"
           color={useColorModeValue("white", "green.300")}
         >
-          {formatter.format(props.item.price).slice(0, -3)}
+          {formatter.format(price).slice(0, -3)}
           <Text as="span" fontWeight="200" fontSize="12px" color="gray.500">
             /unit
           </Text>
@@ -172,7 +190,7 @@ export default function ApprovedItems(props) {
           bottom="20px"
           display={showDec}
           onClick={function () {
-            deleteItem(props.item._id);
+            deleteItem(id);
           }}
         />
         <Box

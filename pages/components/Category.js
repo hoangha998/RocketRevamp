@@ -14,7 +14,13 @@ import {
 import ItemCard from "./ItemCard";
 // import Navbar from "./Navbar";
 // import CartItem from "./CartItem";
-export default function Adhesive(props) {
+export default function Category(props) {
+
+  let itemList = [];
+  if (props.items != undefined) {
+    itemList = props.items;
+  }
+
   let margin_top = "20px";
   if (props.category == 'Launch Port Rentals')
     margin_top = "100px";
@@ -24,8 +30,8 @@ export default function Adhesive(props) {
         {props.category}
       </Heading>
       <Wrap>
-        {props.items.map((item) => (
-          <WrapItem>
+        {itemList.map((item) => (
+          <WrapItem key={item._id}>
             <ItemCard item={item}> </ItemCard>
           </WrapItem>
         ))}
