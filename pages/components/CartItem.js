@@ -32,6 +32,9 @@ const IMAGE = "https://il.farnell.com/productimages/large/en_GB/1775788-40.jpg";
 
 export default function CartItem(props) {
 
+  const [cartTotal, setCartTotal] = useContext(CartTotalContext);
+  const [cartItems, setCartItems] = useContext(CartItemsContext);
+
   let id = 0;
   let price = 0;
   let quantity = 0;
@@ -45,8 +48,6 @@ export default function CartItem(props) {
     name = props.item.name
   }
 
-  const [cartTotal, setCartTotal] = useContext(CartTotalContext);
-  const [cartItems, setCartItems] = useContext(CartItemsContext);
   let cartItemsIds = Object.keys(cartItems);
 
   // let quantity = cartItems[props.item._id].quantity;
@@ -163,7 +164,7 @@ export default function CartItem(props) {
           >
             {quantity}
           </Text>
-          <Text pl="1" display={show} onClick={increment}>
+          <Text pl="1" display={show} onClick={increment} cursor="pointer">
             +
           </Text>
         </Flex>
