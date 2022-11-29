@@ -24,31 +24,29 @@ export default function ItemCard(props) {
   });
 
   const addItem = (item) => {
+    if (1000000 < cartTotal + item.price) {
+      toast({
+        title: "Insufficent Funds",
+        description: "You do not have enough money for this item",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+      return;
+    }
+
     let alreadyAdded = false;
     for (let i = 0; i < cartItemsIds.length; i++) {
       if (item._id == cartItemsIds[i]) {
         alreadyAdded = true;
-        toast({
-          title: "Cannot add item",
-          description: 'Item "' + item.name + '" is already in your cart!',
-          status: "warning",
-          duration: 5000,
-          isClosable: true,
-        });
-        break;
-      }
-
-      if (1000000 < cartTotal + item.price) {
-        toast({
-          title: "Insufficent Funds",
-          description: "You do not have enough money for this item",
-          status: "error",
-          duration: 5000,
-          isClosable: true,
-        });
+        let copyCartItems = { ...cartItems };
+        copyCartItems[item._id].quantity += 1;
+        setCartItems(copyCartItems);
+        setCartTotal(cartTotal + item.price);
         return;
       }
     }
+
     if (!alreadyAdded) {
       let copyCartItems = { ...cartItems };
       copyCartItems[props.item._id] = { item: item, quantity: 1 };

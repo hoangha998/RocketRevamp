@@ -29,13 +29,13 @@ import CartItemsContext from "./context/CartItemsProvider";
 import ApprovedItemsContext from "./context/ApprovedItemsProvider";
 import { useEffect } from 'react';
 
-function Home({ items }) {
+function Home({ items, admin_code }) {
 
   // check for cookies
   const [cartTotal, setCartTotal] = useContext(CartTotalContext);
   const [cartItems, setCartItems] = useContext(CartItemsContext);
   const [approvedItems, setApprovedItems] = useContext(ApprovedItemsContext);
-  
+
   useEffect(() => {
   if (hasCookie('cartTotal')) {
     let cookie_cartTotal = parseInt(getCookie('cartTotal'));
@@ -75,8 +75,6 @@ function Home({ items }) {
     "Your Commander",
   ];
 
-
-
   return (
     <Box width="100%" >
       <Navbar />
@@ -101,7 +99,7 @@ function Home({ items }) {
             height="100vh"
           >
             <BudgetBar />
-            <Cart />
+            <Cart admin_code={admin_code}/>
 
           </Box>
         </GridItem>
@@ -115,9 +113,10 @@ export async function getServerSideProps() {
   const db = client.db("main");
 
   const items = await db.collection("items").find({}).toArray();
+  const admin_code = await db.collection("code").find({}).toArray();
 
   return {
-    props: { items: JSON.parse(JSON.stringify(items)) },
+    props: { items: JSON.parse(JSON.stringify(items)), admin_code: JSON.parse(JSON.stringify(admin_code))[0]['admin_code']},
   };
 }
 

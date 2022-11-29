@@ -36,8 +36,6 @@ export default function CartItem(props) {
   let cartItemsIds = Object.keys(cartItems);
 
   let quantity = cartItems[props.item._id].quantity;
-  // if (cartItems[props.item._id] != undefined)
-  //   quantity = cartItems[props.item._id].quantity;
   const toast = useToast();
 
   let itemTotal = props.item.price * quantity;
@@ -66,7 +64,7 @@ export default function CartItem(props) {
         title: "Insufficent Funds",
         description: "You do not have enough money for this item",
         status: "error",
-        duration: 5000,
+        duration: 3000,
         isClosable: true,
       });
       return;
@@ -161,7 +159,7 @@ export default function CartItem(props) {
           position="relative"
           left="55px"
           bottom="0"
-          
+
           onClick={function () {
             deleteItem(props.item._id);
           }}

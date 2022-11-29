@@ -8,15 +8,15 @@ import {
   Flex,
   Input,
   Button,
+  useToast,
 } from "@chakra-ui/react";
 
 import CartTotalContext from "../context/CartTotalProvider";
 import CartItemsContext from "../context/CartItemsProvider";
-import { useContext, useState } from "react";
+import { useContext, useState, useRef } from "react";
 import CartItem from "./CartItem";
 import ApprovedItem from "./ApprovedItems";
 import ApprovedItemsContext from "../context/ApprovedItemsProvider";
-import { setCookie, getCookie, hasCookie } from 'cookies-next';
 
 export default function Cart(props) {
   const [cartTotal, setCartTotal] = useContext(CartTotalContext);
@@ -28,6 +28,7 @@ export default function Cart(props) {
 
   const [password, setPassword] = useState("");
   const [editMode, setEditMode] = useState(false);
+  const toast = useToast();
 
   const addTotal = (newItemTotal) => {
     setCartTotal(cartTotal + newItemTotal);
@@ -49,10 +50,23 @@ export default function Cart(props) {
     showApprove = "show";
   }
 
+  const approve_input_field = useRef();
+  const edit_input_field = useRef();
+
+  function showIncorrectPasswordToast() {
+    toast({
+      title: "Wrong code entered!",
+      description: "Plese check your syntax.",
+      status: "error",
+      duration: 5000,
+      isClosable: true,
+    });
+  }
+
   function checkPassword(tabPannel) {
     // console.log(passwo)
     if (tabPannel == "Approve") {
-      if (password == "ROCKET") {
+      if (password == props.admin_code) {
         let copyApprovedItems = { ...approvedItems };
         for (let i = 0; i < cartItemsIds.length; i++) {
           let cur_id = cartItemsIds[i];
@@ -63,20 +77,20 @@ export default function Cart(props) {
         setApprovedItems(copyApprovedItems);
         setCartItems({});
         setEditMode(false);
-        setCookie("approved", copyApprovedItems, {maxAge: 20});
       }
+      else {
+        showIncorrectPasswordToast();
+      }
+      approve_input_field.current.value = "";
+
     } else if (tabPannel == "Edit") {
-      if (password == "MO") {
+      if (password == props.admin_code) {
         setEditMode(true);
-        if (hasCookie('approved')) {
-          let test = JSON.parse(getCookie("approved"));
-          console.log("cookie:");
-          console.log(test);
-          console.log(Object.keys(test));
-        }
-        else
-          console.log("no cookie exists");
       }
+      else {
+        showIncorrectPasswordToast();
+      }
+      edit_input_field.current.value = "";
     }
   }
 
@@ -111,7 +125,7 @@ export default function Cart(props) {
               <CartItem item={cartItems[item_id].item} />
             ))}
 
-            
+
 
             <Flex width="80%" mb="5">
               <Input
@@ -125,11 +139,12 @@ export default function Cart(props) {
                   setPassword(e.currentTarget.value);
                 }}
                 float="left"
+                ref={approve_input_field}
               />
               <Box display={showCart} pl="5">
                 <Button
                   size="md"
-                  colorScheme="red"
+                  colorScheme="blue"
                   onClick={function () {
                     checkPassword("Approve");
                   }}
@@ -175,6 +190,7 @@ export default function Cart(props) {
                 onChange={(e) => {
                   setPassword(e.currentTarget.value);
                 }}
+                ref = {edit_input_field}
               />
 
               <Box display={showApprove}>
@@ -183,7 +199,7 @@ export default function Cart(props) {
                   pr="8"
                   ml="2"
                   pl="8" mr="2"
-                  colorScheme="red"
+                  colorScheme="orange"
                   onClick={function () {
                     checkPassword("Edit");
                   }}
