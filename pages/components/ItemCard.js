@@ -24,7 +24,6 @@ export default function ItemCard(props) {
   if (props.item != undefined) {
     id = props.item._id;
     price = props.item.price;
-    quantity = cartItems[props.item._id].quantity;
     image_link = props.item.image_link;
     name = props.item.name;
     note = props.item.note;
@@ -32,6 +31,10 @@ export default function ItemCard(props) {
 
   const [cartTotal, setCartTotal] = useContext(CartTotalContext);
   const [cartItems, setCartItems] = useContext(CartItemsContext);
+
+  if (cartItems[id] != undefined)
+    quantity = cartItems[id].quantity;
+
   let cartItemsIds = Object.keys(cartItems);
   const toast = useToast();
   const formatter = new Intl.NumberFormat("en-US", {
