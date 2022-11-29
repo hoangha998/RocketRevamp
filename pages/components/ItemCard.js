@@ -117,7 +117,7 @@ export default function ItemCard(props) {
           >
             {props.item.name}
           </Heading>
-          <Text as="span" color="gray.300" fontSize="10">
+          <Text as="span" color="gray.300" fontSize="11">
             {" "}
             {props.item.note}
           </Text>
