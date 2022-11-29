@@ -30,7 +30,6 @@ import ApprovedItemsContext from "./context/ApprovedItemsProvider";
 import { useEffect } from 'react';
 
 function Home({ items, admin_code }) {
-
   // check for cookies
   const [cartTotal, setCartTotal] = useContext(CartTotalContext);
   const [cartItems, setCartItems] = useContext(CartItemsContext);
